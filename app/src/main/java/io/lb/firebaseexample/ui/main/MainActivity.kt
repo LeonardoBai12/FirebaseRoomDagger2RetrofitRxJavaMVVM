@@ -1,5 +1,6 @@
 package io.lb.firebaseexample.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -10,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityMainBinding
+import io.lb.firebaseexample.ui.todo.TodoDetailsActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,13 +26,21 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
+        setupNavController()
+        setupAddButton()
+    }
+
+    private fun setupAddButton() {
+        binding.fabAddNewTodo.setOnClickListener { view ->
+            val i = Intent(this, TodoDetailsActivity::class.java)
+            startActivity(i)
+        }
+    }
+
+    private fun setupNavController() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fabAddNewTodo.setOnClickListener { view ->
-
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
