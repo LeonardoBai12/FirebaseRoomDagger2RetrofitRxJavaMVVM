@@ -40,8 +40,8 @@ class MainTodoAdapter : RecyclerView.Adapter<MainTodoAdapter.ViewHolder>() {
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val tvTodoTitle: TextView = view.findViewById(R.id.tvTodoTitle)
-        private val chkIsCompleted : CheckBox = view.findViewById(R.id.chkIsCompleted)
+        private val tvTodoTitle: TextView = view.findViewById(R.id.tv_todo_title)
+        private val chkIsCompleted : CheckBox = view.findViewById(R.id.chk_is_completed)
 
         fun bind(todo: Todo) {
             tvTodoTitle.text = todo.title
