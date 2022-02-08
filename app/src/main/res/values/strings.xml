@@ -16,4 +16,6 @@
     <string name="finish">Finalizar</string>
     <string name="repeat_password">Repita sua senha</string>
     <string name="full_name">Nome completo</string>
+    <string name="try_again">Tentar novamente</string>
+    <string name="not_connected">Houve uma falha na conexão =(</string>
 </resources>
