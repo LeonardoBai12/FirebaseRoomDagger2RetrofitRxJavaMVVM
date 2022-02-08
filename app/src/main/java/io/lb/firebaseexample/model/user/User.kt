@@ -1,4 +1,6 @@
 package io.lb.firebaseexample.model.user
 
-class User {
-}
+data class User(
+    var userUID: String? = null,
+    var name: String? = null,
+)
