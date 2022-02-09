@@ -1,7 +1,9 @@
 package io.lb.firebaseexample.di
 
+import android.app.Application
 import dagger.Module
 import dagger.Provides
+import io.lb.firebaseexample.db.AppDataBase
 import io.lb.firebaseexample.network.RetrofitServiceInterface
 import io.lb.firebaseexample.util.GeneralConstants
 import retrofit2.Retrofit
@@ -25,5 +27,11 @@ class AppModule {
     @Singleton
     fun getRetrofitServiceInstance(retrofit: Retrofit): RetrofitServiceInterface {
         return retrofit.create(RetrofitServiceInterface::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun getAppDataBase(application: Application): AppDataBase {
+        return AppDataBase.getAppDataBaseInstance(application)
     }
 }
