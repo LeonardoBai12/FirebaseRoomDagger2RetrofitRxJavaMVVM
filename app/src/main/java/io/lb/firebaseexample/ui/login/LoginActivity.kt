@@ -4,10 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityLoginBinding
 import io.lb.firebaseexample.ui.main.MainActivity
@@ -16,9 +15,11 @@ import timber.log.Timber
 import java.lang.Exception
 import javax.inject.Inject
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : DaggerAppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private val auth = Firebase.auth
+
+    @Inject
+    lateinit var auth: FirebaseAuth
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory

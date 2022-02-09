@@ -55,6 +55,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-perf-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-database-ktx'
 
     def rx_android_version = "3.0.0"
     implementation "io.reactivex.rxjava3:rxandroid:$rx_android_version"

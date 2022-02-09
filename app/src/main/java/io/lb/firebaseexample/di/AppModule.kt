@@ -1,6 +1,9 @@
 package io.lb.firebaseexample.di
 
 import android.app.Application
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import io.lb.firebaseexample.db.AppDataBase
@@ -33,5 +36,11 @@ class AppModule {
     @Singleton
     fun getAppDataBase(application: Application): AppDataBase {
         return AppDataBase.getAppDataBaseInstance(application)
+    }
+
+    @Provides
+    @Singleton
+    fun getFirebaseAuth(): FirebaseAuth {
+        return Firebase.auth
     }
 }

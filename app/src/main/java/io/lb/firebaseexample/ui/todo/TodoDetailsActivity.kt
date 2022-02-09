@@ -1,10 +1,10 @@
 package io.lb.firebaseexample.ui.todo
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.databinding.ActivityTodoDetailsBinding
 
-class TodoDetailsActivity : AppCompatActivity() {
+class TodoDetailsActivity : DaggerAppCompatActivity() {
     private lateinit var binding: ActivityTodoDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
