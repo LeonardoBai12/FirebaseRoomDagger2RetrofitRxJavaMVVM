@@ -19,4 +19,9 @@
     <string name="try_again">Tentar novamente</string>
     <string name="not_connected">Houve uma falha na conexão =(</string>
     <string name="logout">Logout</string>
+    <string name="without_deadline">Sem prazo</string>
+    <string name="title">Título</string>
+    <string name="description">Descrição</string>
+    <string name="date">Data</string>
+    <string name="deadline">Prazo</string>
 </resources>
