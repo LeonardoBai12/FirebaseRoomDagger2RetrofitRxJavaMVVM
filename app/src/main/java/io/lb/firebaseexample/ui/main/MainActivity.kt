@@ -9,14 +9,18 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityMainBinding
+import io.lb.firebaseexample.ui.login.LoginActivity
 import io.lb.firebaseexample.ui.todo.TodoDetailsActivity
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private val auth = Firebase.auth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +55,17 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> true
+            R.id.action_logout -> onClickLogout()
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun onClickLogout(): Boolean {
+        auth.signOut()
+        val i = Intent(this, LoginActivity::class.java)
+        startActivity(i)
+        finish()
+        return true
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -56,6 +56,7 @@ class SignInActivity : AppCompatActivity() {
         val i = Intent(this, MainActivity::class.java)
         i.putExtra("CURRENT_USER", auth.currentUser)
         startActivity(i)
+        finishAffinity()
     }
 
     private fun onSignInFailure(task: Exception?) {

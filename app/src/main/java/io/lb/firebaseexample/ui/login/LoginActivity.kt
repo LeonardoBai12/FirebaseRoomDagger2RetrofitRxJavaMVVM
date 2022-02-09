@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
         setupLoginButton()
         setupSignInButton()
     }
-    
+
     private fun setupLoginButton() {
         binding.included.btLogin.setOnClickListener {
             val email = binding.included.tvLoginEmail.editText?.text.toString()
@@ -59,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
         val i = Intent(this, MainActivity::class.java)
         i.putExtra("CURRENT_USER", auth.currentUser)
         startActivity(i)
+        finish()
     }
 
     private fun onSignInFailure(task: Exception?) {
