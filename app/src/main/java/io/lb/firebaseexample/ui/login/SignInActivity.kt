@@ -66,7 +66,6 @@ class SignInActivity : DaggerAppCompatActivity() {
     private fun onSignInSuccess() {
         Timber.d("createUser:success")
         val i = Intent(this, MainActivity::class.java)
-        i.putExtra("CURRENT_USER", auth.currentUser)
         startActivity(i)
         finishAffinity()
     }

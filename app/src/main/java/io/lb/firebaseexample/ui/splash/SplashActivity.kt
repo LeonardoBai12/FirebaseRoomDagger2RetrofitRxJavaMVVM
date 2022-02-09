@@ -28,13 +28,10 @@ class SplashActivity : DaggerAppCompatActivity() {
     }
 
     private fun openActivityAccordingToUser() {
-        val i: Intent
-
-        if (auth.currentUser != null) {
-            i = Intent(this, MainActivity::class.java)
-            i.putExtra("CURRENT_USER", auth.currentUser)
+        val i = if (auth.currentUser != null) {
+            Intent(this, MainActivity::class.java)
         } else {
-            i = Intent(this, LoginActivity::class.java)
+            Intent(this, LoginActivity::class.java)
         }
         startActivity(i)
         finish()
