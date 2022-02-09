@@ -2,13 +2,24 @@ package io.lb.firebaseexample.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityLoginBinding
 import io.lb.firebaseexample.ui.main.MainActivity
+import io.lb.firebaseexample.ui.user.UserViewModel
+import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel: UserViewModel by viewModels {
+        viewModelFactory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
