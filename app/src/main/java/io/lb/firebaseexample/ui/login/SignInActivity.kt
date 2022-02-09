@@ -37,8 +37,19 @@ class SignInActivity : AppCompatActivity() {
 
     private fun setupFinishButton() {
         binding.included.btFinish.setOnClickListener {
+            val name = binding.included.tvFullName.editText?.text.toString()
             val email = binding.included.tvSignInEmail.editText?.text.toString()
             val password = binding.included.tvSignInPassword.editText?.text.toString()
+            val repeatPassword = binding.included.tvSignInRepeatPassword.editText?.text.toString()
+
+            if (name.isEmpty() && email.isEmpty() &&
+                password.isEmpty() && repeatPassword.isEmpty()) {
+                toastMakeText("Existem campos não preenchidos")
+                return@setOnClickListener
+            } else if (password != repeatPassword) {
+                toastMakeText("As senhas digitadas não conferem")
+                return@setOnClickListener
+            }
 
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
@@ -61,10 +72,10 @@ class SignInActivity : AppCompatActivity() {
 
     private fun onSignInFailure(task: Exception?) {
         Timber.e("createUser:failure $task")
-        Toast.makeText(
-            baseContext,
-            "Authentication failed. $task",
-            Toast.LENGTH_LONG
-        ).show()
+        toastMakeText("Authentication failed. $task")
+    }
+
+    private fun toastMakeText(text: String) {
+        Toast.makeText(baseContext, text, Toast.LENGTH_LONG).show()
     }
 }
