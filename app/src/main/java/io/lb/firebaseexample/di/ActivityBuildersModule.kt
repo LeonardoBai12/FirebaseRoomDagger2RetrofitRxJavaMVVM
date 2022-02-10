@@ -10,6 +10,7 @@ import io.lb.firebaseexample.di.user.UserViewModelModule
 import io.lb.firebaseexample.ui.login.LoginActivity
 import io.lb.firebaseexample.ui.login.SignInActivity
 import io.lb.firebaseexample.ui.main.MainActivity
+import io.lb.firebaseexample.ui.notConnected.NotConnectedActivity
 import io.lb.firebaseexample.ui.splash.SplashActivity
 import io.lb.firebaseexample.ui.todo.TodoDetailsActivity
 
@@ -17,6 +18,9 @@ import io.lb.firebaseexample.ui.todo.TodoDetailsActivity
 abstract class ActivityBuildersModule {
     @ContributesAndroidInjector
     abstract fun contributeSplashActivity(): SplashActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeNotConnected(): NotConnectedActivity
 
     @ContributesAndroidInjector(
         modules = [
