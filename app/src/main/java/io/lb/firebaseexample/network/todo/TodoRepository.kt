@@ -1,15 +1,34 @@
 package io.lb.firebaseexample.network.todo
 
-import io.lb.firebaseexample.network.RetrofitServiceInterface
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
+import io.lb.firebaseexample.model.todo.Todo
 
 class TodoRepository(
-    private val retrofitServiceInterface: RetrofitServiceInterface,
+    private val database: FirebaseDatabase,
+    private val auth: FirebaseAuth,
 ) {
-    //fun makeReactiveQueryForTodos(): Flowable<ArrayList<Todo>> {
-    //    return retrofitServiceInterface.getToDos().subscribeOn(Schedulers.io())
-    //        .observeOn(AndroidSchedulers.mainThread())
-    //}
+    fun loadTodos(): Task<DataSnapshot> {
+        return database.getReference("todo").get()
+    }
+
+    fun loadTodosListener(onDataChanged: (ArrayList<Todo>) -> Unit): ValueEventListener {
+        return database.getReference("todo").addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val hashMap = snapshot.getValue<HashMap<String, ArrayList<Todo>>>()
+                    val todos = hashMap?.get(auth.uid)
+                    onDataChanged(todos ?: arrayListOf())
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            }
+        )
+    }
 }

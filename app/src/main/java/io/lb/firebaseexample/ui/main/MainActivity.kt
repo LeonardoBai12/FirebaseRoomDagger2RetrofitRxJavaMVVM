@@ -8,32 +8,50 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityMainBinding
 import io.lb.firebaseexample.ui.login.LoginActivity
 import io.lb.firebaseexample.ui.todo.TodoDetailsActivity
+import io.lb.firebaseexample.ui.todo.TodoViewModel
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
-
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
     @Inject
     lateinit var auth: FirebaseAuth
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel: TodoViewModel by viewModels {
+        viewModelFactory
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setupViewModel()
+        setupBindings()
+
+        setupNavController()
+        setupAddButton()
+    }
+
+    private fun setupBindings() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
+    }
 
-        setupNavController()
-        setupAddButton()
+    private fun setupViewModel() {
+        viewModel.loadTodos()
     }
 
     private fun setupAddButton() {

@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import dagger.android.support.DaggerFragment
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.FragmentSettingsBinding
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
-class MainSettingsFragment : Fragment() {
+class MainSettingsFragment : DaggerFragment() {
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!

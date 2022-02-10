@@ -10,10 +10,8 @@ import io.lb.firebaseexample.network.user.UserRepository
 @Module
 class UserModule {
     @Provides
-    fun providesTodosRepository(
-        retrofitServiceInterface: RetrofitServiceInterface,
-    ): UserRepository {
-        return UserRepository(retrofitServiceInterface)
+    fun providesTodosRepository(): UserRepository {
+        return UserRepository()
     }
 
     @Provides

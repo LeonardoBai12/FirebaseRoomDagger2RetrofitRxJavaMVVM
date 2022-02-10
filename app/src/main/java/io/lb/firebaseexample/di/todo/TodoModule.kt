@@ -1,5 +1,7 @@
 package io.lb.firebaseexample.di.todo
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
 import io.lb.firebaseexample.db.AppDataBase
@@ -11,9 +13,10 @@ import io.lb.firebaseexample.network.todo.TodoRepository
 class TodoModule {
     @Provides
     fun providesTodosRepository(
-        retrofitServiceInterface: RetrofitServiceInterface,
+        database: FirebaseDatabase,
+        auth: FirebaseAuth
     ): TodoRepository {
-        return TodoRepository(retrofitServiceInterface)
+        return TodoRepository(database, auth)
     }
 
     @Provides
