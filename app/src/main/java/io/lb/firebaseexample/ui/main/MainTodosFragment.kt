@@ -12,7 +12,6 @@ import dagger.android.support.DaggerFragment
 import io.lb.firebaseexample.databinding.FragmentTodosBinding
 import io.lb.firebaseexample.model.todo.Todo
 import io.lb.firebaseexample.ui.todo.TodoViewModel
-import timber.log.Timber
 
 class MainTodosFragment : DaggerFragment() {
     private var _binding: FragmentTodosBinding? = null

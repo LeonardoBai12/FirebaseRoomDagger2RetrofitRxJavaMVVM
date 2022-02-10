@@ -74,7 +74,7 @@ class TodoViewModel @Inject constructor(
                     return false
                 }
             })
-        }.debounce(1, TimeUnit.SECONDS)
+        }.debounce(500, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
