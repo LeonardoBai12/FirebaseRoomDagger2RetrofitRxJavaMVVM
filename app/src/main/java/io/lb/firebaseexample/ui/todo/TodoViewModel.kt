@@ -1,5 +1,6 @@
 package io.lb.firebaseexample.ui.todo
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
@@ -11,6 +12,8 @@ import javax.inject.Inject
 class TodoViewModel @Inject constructor(
     private val repository: TodoRepository,
 ) : ViewModel() {
+    val error = MutableLiveData<String>()
+
     fun createTodo(
         id: Int,
         typedTitle: String,
@@ -29,10 +32,15 @@ class TodoViewModel @Inject constructor(
     }
 
     fun validateTodo(todo: Todo): Boolean {
+        if (todo.title.isNullOrEmpty()) {
+            error.value = "Não é possível gravar uma tarefa sem título"
+            return false
+        }
         return true
     }
 
-    fun insertTodo(todo: Todo) {
+    fun insertTodo(todo: Todo, onCompleted: (Boolean, Exception?) -> Unit): Task<Void> {
+        return repository.insertTodo(todo, onCompleted)
     }
 
     fun loadTodos(): Task<DataSnapshot> {

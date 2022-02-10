@@ -20,12 +20,6 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
     private var id = 0
 
     @Inject
-    lateinit var auth: FirebaseAuth
-
-    @Inject
-    lateinit var database: FirebaseDatabase
-
-    @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel: TodoViewModel by viewModels {
@@ -38,8 +32,15 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
         binding = ActivityTodoDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupErrorLiveData()
         setupViewModel()
         setupFinishButton()
+    }
+
+    private fun setupErrorLiveData() {
+        viewModel.error.observe(this) { error ->
+            toastMakeText(error)
+        }
     }
 
     private fun setupFinishButton() {
@@ -47,19 +48,14 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
             val todo = createTodoAccordingToFields()
 
             if (viewModel.validateTodo(todo)) {
-                database.reference
-                    .child("todo")
-                    .child(auth.currentUser!!.uid)
-                    .child(todo.id.toString())
-                    .setValue(todo).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            viewModel.insertTodo(todo)
-                            finish()
-                        } else {
-                            Timber.e(it.exception)
-                            toastMakeText("Falha ao salvar tarefa. ${it.exception}")
-                        }
+                viewModel.insertTodo(todo) { isSuccessful, exception ->
+                    if (isSuccessful) {
+                        finish()
+                    } else {
+                        Timber.e(exception)
+                        toastMakeText("Falha ao salvar tarefa. $exception")
                     }
+                }
             }
         }
     }
@@ -68,7 +64,6 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
         viewModel.loadTodosListener { todos ->
             id = todos.size
         }
-        viewModel.loadTodos()
     }
 
     private fun toastMakeText(text: String) {

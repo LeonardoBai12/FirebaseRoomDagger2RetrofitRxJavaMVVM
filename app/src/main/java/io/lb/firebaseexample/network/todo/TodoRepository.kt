@@ -13,6 +13,16 @@ class TodoRepository(
     private val database: FirebaseDatabase,
     private val auth: FirebaseAuth,
 ) {
+    fun insertTodo(todo: Todo, onCompleted: (Boolean, Exception?) -> Unit): Task<Void> {
+        return database.reference
+            .child("todo")
+            .child(auth.currentUser!!.uid)
+            .child(todo.id.toString())
+            .setValue(todo).addOnCompleteListener {
+                onCompleted(it.isSuccessful, it.exception)
+            }
+    }
+
     fun loadTodos(): Task<DataSnapshot> {
         return database.getReference("todo").get()
     }

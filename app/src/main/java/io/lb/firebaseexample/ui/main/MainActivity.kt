@@ -55,7 +55,7 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupAddButton() {
-        binding.fabAddNewTodo.setOnClickListener { view ->
+        binding.fabAddNewTodo.setOnClickListener {
             val i = Intent(this, TodoDetailsActivity::class.java)
             startActivity(i)
         }

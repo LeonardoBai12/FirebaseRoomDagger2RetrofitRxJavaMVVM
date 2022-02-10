@@ -41,7 +41,6 @@ class MainTodosFragment : DaggerFragment() {
 
     private fun setupViewModel() {
         viewModel = ViewModelProvider(requireActivity())[TodoViewModel::class.java]
-
         viewModel.loadTodosListener { todos ->
             todoAdapter.updateList(todos)
         }
