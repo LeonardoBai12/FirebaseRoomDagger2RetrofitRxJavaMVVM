@@ -1,5 +1,6 @@
 package io.lb.firebaseexample.ui.todo
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.databinding.ActivityTodoDetailsBinding
 import io.lb.firebaseexample.model.todo.Todo
+import io.lb.firebaseexample.util.DateHelper
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,6 +32,40 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
         setupErrorLiveData()
         setupViewModel()
         setupFinishButton()
+        setupDateButton()
+        setupDeadlineButton()
+        setupHasDeadlineCheckbox()
+    }
+
+    private fun setupHasDeadlineCheckbox() {
+        binding.included.chkWithoutDeadline.setOnCheckedChangeListener { _, isChecked ->
+            binding.included.tvTodoDeadline.editText?.setText("")
+            binding.included.tvTodoDeadline.editText?.isEnabled = !isChecked
+        }
+    }
+
+    private fun setupDeadlineButton() {
+        binding.included.tvTodoDeadline.editText?.setOnClickListener {
+            val typedDate = binding.included.tvTodoDeadline.editText?.text.toString()
+            val datePickerDialog = DateHelper.datePickerDialog(
+                this,
+                typedDate,
+                onDeadlineDateSet()
+            )
+            datePickerDialog.show()
+        }
+    }
+
+    private fun setupDateButton() {
+        binding.included.tvTodoDate.editText?.setOnClickListener {
+            val typedDate = binding.included.tvTodoDate.editText?.text.toString()
+            val datePickerDialog = DateHelper.datePickerDialog(
+                this,
+                typedDate,
+                onDateSet()
+            )
+            datePickerDialog.show()
+        }
     }
 
     private fun setupErrorLiveData() {
@@ -41,8 +77,9 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
     private fun setupFinishButton() {
         binding.included.btTodoFinish.setOnClickListener {
             val todo = createTodoAccordingToFields()
+            val hasDeadline = !binding.included.chkWithoutDeadline.isChecked
 
-            if (viewModel.validateTodo(todo)) {
+            if (viewModel.validateTodo(todo, hasDeadline)) {
                 viewModel.insertTodo(todo) { isSuccessful, exception ->
                     if (isSuccessful) {
                         finish()
@@ -77,5 +114,23 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
             date,
             deadline
         )
+    }
+
+    private fun onDateSet() : DatePickerDialog.OnDateSetListener {
+        return DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            val date = DateHelper.dateToString(day, month, year)
+            binding.included.tvTodoDate.editText?.setText(
+                date
+            )
+        }
+    }
+
+    private fun onDeadlineDateSet(): DatePickerDialog.OnDateSetListener {
+        return DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            val date = DateHelper.dateToString(day, month, year)
+            binding.included.tvTodoDeadline.editText?.setText(
+                date
+            )
+        }
     }
 }

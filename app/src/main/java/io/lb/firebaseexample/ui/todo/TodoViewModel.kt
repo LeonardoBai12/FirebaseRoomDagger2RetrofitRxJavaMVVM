@@ -28,7 +28,7 @@ class TodoViewModel @Inject constructor(
         typedTitle: String,
         typedDescription: String,
         typedDate: String,
-        typedDeadline: String
+        typedDeadline: String,
     ): Todo {
         return Todo(
             id = id,
@@ -40,9 +40,15 @@ class TodoViewModel @Inject constructor(
         )
     }
 
-    fun validateTodo(todo: Todo): Boolean {
+    fun validateTodo(todo: Todo, hasDeadline: Boolean): Boolean {
         if (todo.title.isNullOrEmpty()) {
             error.value = "Não é possível gravar uma tarefa sem título"
+            return false
+        } else if (todo.date.isNullOrEmpty()) {
+            error.value = "Não é possível gravar uma tarefa sem data"
+            return false
+        } else if (hasDeadline && todo.deadline.isNullOrEmpty()) {
+            error.value = "Esta tarefa necessita um prazo estipulado"
             return false
         }
         return true
