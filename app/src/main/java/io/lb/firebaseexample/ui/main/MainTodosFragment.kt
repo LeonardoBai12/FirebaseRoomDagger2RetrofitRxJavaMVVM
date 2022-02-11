@@ -12,6 +12,7 @@ import dagger.android.support.DaggerFragment
 import io.lb.firebaseexample.databinding.FragmentTodosBinding
 import io.lb.firebaseexample.model.todo.Todo
 import io.lb.firebaseexample.ui.todo.TodoViewModel
+import io.lb.firebaseexample.ui.user.UserViewModel
 
 class MainTodosFragment : DaggerFragment() {
     private var _binding: FragmentTodosBinding? = null
@@ -19,6 +20,7 @@ class MainTodosFragment : DaggerFragment() {
     private val todoAdapter = MainTodoAdapter()
 
     private lateinit var viewModel: TodoViewModel
+    private lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,6 +63,11 @@ class MainTodosFragment : DaggerFragment() {
         viewModel.setupSearchTil(binding.svTodo).subscribe {
             todoAdapter.getFilter().filter(it)
             disableShimmer()
+        }
+
+        userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
+        userViewModel.loadUsersListener { user ->
+            binding.tvUser.text = "Olá, ${user.name}!"
         }
     }
 

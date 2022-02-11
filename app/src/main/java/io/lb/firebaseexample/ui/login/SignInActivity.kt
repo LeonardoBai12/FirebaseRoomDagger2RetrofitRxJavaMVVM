@@ -2,10 +2,11 @@ package io.lb.firebaseexample.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.databinding.ActivitySignInBinding
 import io.lb.firebaseexample.ui.main.MainActivity
@@ -16,9 +17,6 @@ import javax.inject.Inject
 
 class SignInActivity : DaggerAppCompatActivity() {
     private lateinit var binding: ActivitySignInBinding
-
-    @Inject
-    lateinit var auth: FirebaseAuth
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -52,14 +50,30 @@ class SignInActivity : DaggerAppCompatActivity() {
                 return@setOnClickListener
             }
 
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        onSignInSuccess()
-                    } else {
-                        onSignInFailure(task.exception)
+            viewModel.createFirebaseUser(
+                this,
+                email,
+                password,
+            ) { task ->
+                if (task.isSuccessful) {
+                    task.result.user?.let {
+                        insertUser(it, name)
                     }
+                } else {
+                    onSignInFailure(task.exception)
                 }
+            }
+        }
+    }
+
+    private fun insertUser(
+        it: FirebaseUser,
+        name: String
+    ) = viewModel.insertUser(it.uid, name) { isSuccessful, exception ->
+        if (isSuccessful) {
+            onSignInSuccess()
+        } else {
+            onSignInFailure(exception)
         }
     }
 

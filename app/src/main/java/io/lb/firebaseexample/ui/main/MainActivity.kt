@@ -17,6 +17,7 @@ import io.lb.firebaseexample.databinding.ActivityMainBinding
 import io.lb.firebaseexample.ui.login.LoginActivity
 import io.lb.firebaseexample.ui.todo.TodoDetailsActivity
 import io.lb.firebaseexample.ui.todo.TodoViewModel
+import io.lb.firebaseexample.ui.user.UserViewModel
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
@@ -30,6 +31,10 @@ class MainActivity : DaggerAppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel: TodoViewModel by viewModels {
+        viewModelFactory
+    }
+
+    private val userViewModel: UserViewModel by viewModels {
         viewModelFactory
     }
 
@@ -52,6 +57,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
     private fun setupViewModel() {
         viewModel.loadTodos()
+        userViewModel.loadUser()
     }
 
     private fun setupAddButton() {
