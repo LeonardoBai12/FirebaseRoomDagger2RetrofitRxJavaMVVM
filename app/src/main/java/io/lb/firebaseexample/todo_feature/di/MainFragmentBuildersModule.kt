@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.di.main
+package io.lb.firebaseexample.todo_feature.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

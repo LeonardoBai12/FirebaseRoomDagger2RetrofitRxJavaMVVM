@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.di.user
+package io.lb.firebaseexample.user_feature.di
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds

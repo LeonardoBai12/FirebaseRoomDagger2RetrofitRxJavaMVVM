@@ -1,10 +1,10 @@
-package io.lb.firebaseexample.db.user
+package io.lb.firebaseexample.user_feature.data.data_source
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.lb.firebaseexample.model.user.User
+import io.lb.firebaseexample.user_feature.domain.model.User
 import io.reactivex.rxjava3.core.Flowable
 
 @Dao

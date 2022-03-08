@@ -1,19 +1,17 @@
 package io.lb.firebaseexample.ui.user
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
-import io.lb.firebaseexample.model.user.User
-import io.lb.firebaseexample.network.user.UserRepository
+import io.lb.firebaseexample.user_feature.domain.model.User
+import io.lb.firebaseexample.user_feature.data.data_source.UserDataSource
 import javax.inject.Inject
 
 class UserViewModel @Inject constructor(
-    private val repository: UserRepository
+    private val repository: UserDataSource
 ) : ViewModel() {
 
     fun createFirebaseUser(

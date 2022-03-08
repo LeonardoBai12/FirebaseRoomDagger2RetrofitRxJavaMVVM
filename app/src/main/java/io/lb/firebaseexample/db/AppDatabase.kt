@@ -1,42 +1,21 @@
 package io.lb.firebaseexample.db
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import io.lb.firebaseexample.db.todo.TodoDAO
-import io.lb.firebaseexample.db.user.UserDAO
-import io.lb.firebaseexample.model.todo.Todo
-import io.lb.firebaseexample.model.todo.TodoTypeConverter
-import io.lb.firebaseexample.model.user.User
-import io.lb.firebaseexample.model.user.UserTypeConverter
+import io.lb.firebaseexample.todo_feature.data.data_source.TodoDAO
+import io.lb.firebaseexample.user_feature.data.data_source.UserDAO
+import io.lb.firebaseexample.todo_feature.domain.model.Todo
+import io.lb.firebaseexample.user_feature.domain.model.User
 
 @Database(
     entities = [User::class, Todo::class],
     version = 1,
-    exportSchema = false
 )
-@TypeConverters(
-    UserTypeConverter::class,
-    TodoTypeConverter::class
-)
-abstract class AppDataBase: RoomDatabase() {
-    abstract fun getUserDao(): UserDAO
-    abstract fun getTodoDao(): TodoDAO
+abstract class AppDatabase: RoomDatabase() {
+    abstract val userDao: UserDAO
+    abstract val todoDao: TodoDAO
 
     companion object {
-        private var dbInstance: AppDataBase? = null
-
-        fun getAppDataBaseInstance(context: Context): AppDataBase {
-            if (dbInstance == null) {
-                dbInstance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDataBase::class.java,
-                    "APP_DB"
-                ).build()
-            }
-            return dbInstance!!
-        }
+        const val DATABASE_NAME = "lb_todos_db"
     }
 }

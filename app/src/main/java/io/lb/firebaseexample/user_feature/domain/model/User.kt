@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.model.user
+package io.lb.firebaseexample.user_feature.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -8,7 +8,7 @@ import android.widget.Filter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import io.lb.firebaseexample.R
-import io.lb.firebaseexample.model.todo.Todo
+import io.lb.firebaseexample.todo_feature.domain.model.Todo
 
 class MainTodoAdapter : RecyclerView.Adapter<MainTodoAdapter.ViewHolder>() {
     private var todos = arrayListOf<Todo>()

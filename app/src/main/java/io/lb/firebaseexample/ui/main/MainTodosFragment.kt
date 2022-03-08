@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import io.lb.firebaseexample.databinding.FragmentTodosBinding
-import io.lb.firebaseexample.model.todo.Todo
+import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.ui.todo.TodoViewModel
 import io.lb.firebaseexample.ui.user.UserViewModel
 

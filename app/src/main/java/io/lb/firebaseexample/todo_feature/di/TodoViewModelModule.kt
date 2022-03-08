@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.di.todo
+package io.lb.firebaseexample.todo_feature.di
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds

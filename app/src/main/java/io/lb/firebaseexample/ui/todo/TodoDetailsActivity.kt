@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.databinding.ActivityTodoDetailsBinding
-import io.lb.firebaseexample.model.todo.Todo
+import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.util.DateHelper
 import timber.log.Timber
 import javax.inject.Inject

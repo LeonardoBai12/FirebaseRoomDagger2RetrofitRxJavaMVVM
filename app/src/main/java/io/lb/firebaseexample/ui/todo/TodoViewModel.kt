@@ -1,25 +1,21 @@
 package io.lb.firebaseexample.ui.todo
 
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
-import io.lb.firebaseexample.model.todo.Todo
-import io.lb.firebaseexample.network.todo.TodoRepository
+import io.lb.firebaseexample.todo_feature.domain.model.Todo
+import io.lb.firebaseexample.todo_feature.data.data_source.TodoDataSource
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class TodoViewModel @Inject constructor(
-    private val repository: TodoRepository,
+    private val repository: TodoDataSource,
 ) : ViewModel() {
     val error = MutableLiveData<String>()
 

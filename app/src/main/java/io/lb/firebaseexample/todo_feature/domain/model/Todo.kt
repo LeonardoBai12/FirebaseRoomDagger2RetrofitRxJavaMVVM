@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.model.todo
+package io.lb.firebaseexample.todo_feature.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

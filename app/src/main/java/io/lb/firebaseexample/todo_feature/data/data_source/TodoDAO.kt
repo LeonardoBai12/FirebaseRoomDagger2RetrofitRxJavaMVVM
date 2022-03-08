@@ -1,10 +1,10 @@
-package io.lb.firebaseexample.db.todo
+package io.lb.firebaseexample.todo_feature.data.data_source
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.lb.firebaseexample.model.todo.Todo
+import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.reactivex.rxjava3.core.Flowable
 
 @Dao

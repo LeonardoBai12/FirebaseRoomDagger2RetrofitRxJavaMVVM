@@ -2,11 +2,11 @@ package io.lb.firebaseexample.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import io.lb.firebaseexample.di.main.MainFragmentBuildersModule
-import io.lb.firebaseexample.di.todo.TodoModule
-import io.lb.firebaseexample.di.todo.TodoViewModelModule
-import io.lb.firebaseexample.di.user.UserModule
-import io.lb.firebaseexample.di.user.UserViewModelModule
+import io.lb.firebaseexample.todo_feature.di.MainFragmentBuildersModule
+import io.lb.firebaseexample.todo_feature.di.TodoModule
+import io.lb.firebaseexample.todo_feature.di.TodoViewModelModule
+import io.lb.firebaseexample.user_feature.di.UserModule
+import io.lb.firebaseexample.user_feature.di.UserViewModelModule
 import io.lb.firebaseexample.ui.login.LoginActivity
 import io.lb.firebaseexample.ui.login.SignInActivity
 import io.lb.firebaseexample.ui.main.MainActivity

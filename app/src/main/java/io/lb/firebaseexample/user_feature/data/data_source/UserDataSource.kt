@@ -1,6 +1,5 @@
-package io.lb.firebaseexample.network.user
+package io.lb.firebaseexample.user_feature.data.data_source
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -10,9 +9,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
-import io.lb.firebaseexample.model.user.User
+import io.lb.firebaseexample.user_feature.domain.model.User
 
-class UserRepository(
+class UserDataSource(
     private val database: FirebaseDatabase,
     private val auth: FirebaseAuth,
 ) {

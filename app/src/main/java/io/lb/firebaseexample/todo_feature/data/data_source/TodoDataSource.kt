@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.network.todo
+package io.lb.firebaseexample.todo_feature.data.data_source
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -7,9 +7,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
-import io.lb.firebaseexample.model.todo.Todo
+import io.lb.firebaseexample.todo_feature.domain.model.Todo
 
-class TodoRepository(
+class TodoDataSource(
     private val database: FirebaseDatabase,
     private val auth: FirebaseAuth,
 ) {
