@@ -13,6 +13,7 @@ import io.lb.firebaseexample.databinding.FragmentTodosBinding
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.todo_feature.presentation.TodoViewModel
 import io.lb.firebaseexample.user_feature.presentation.UserViewModel
+import io.lb.firebaseexample.util.setupSearchTil
 
 class MainTodosFragment : DaggerFragment() {
     private var _binding: FragmentTodosBinding? = null
@@ -33,6 +34,7 @@ class MainTodosFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupSearchTil()
         setupRecyclerView()
         setupViewModel()
     }
@@ -60,10 +62,6 @@ class MainTodosFragment : DaggerFragment() {
         viewModel.loadTodosListener { todos ->
             updateTodos(todos)
         }
-        viewModel.setupSearchTil(binding.svTodo).subscribe {
-            todoAdapter.getFilter().filter(it)
-            disableShimmer()
-        }
 
         userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
         userViewModel.loadUsersListener { user ->
@@ -77,6 +75,13 @@ class MainTodosFragment : DaggerFragment() {
         Handler(Looper.getMainLooper()).postDelayed({
             disableShimmer()
         }, 1500)
+    }
+
+    private fun setupSearchTil() {
+        setupSearchTil(binding.svTodo).subscribe {
+            todoAdapter.getFilter().filter(it)
+            disableShimmer()
+        }
     }
 
     private fun disableShimmer() {

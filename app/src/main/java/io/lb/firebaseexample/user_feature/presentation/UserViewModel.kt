@@ -8,10 +8,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
 import io.lb.firebaseexample.user_feature.domain.model.User
 import io.lb.firebaseexample.user_feature.data.data_source.UserDataSource
+import io.lb.firebaseexample.user_feature.domain.use_case.UserUseCases
 import javax.inject.Inject
 
 class UserViewModel @Inject constructor(
-    private val repository: UserDataSource
+    private val useCases: UserUseCases
 ) : ViewModel() {
 
     fun createFirebaseUser(
@@ -35,13 +36,5 @@ class UserViewModel @Inject constructor(
         )
 
         return repository.insertUser(user, onCompleted)
-    }
-
-    fun loadUser(): Task<DataSnapshot> {
-        return repository.loadUsers()
-    }
-
-    fun loadUsersListener(onDataChanged: (User) -> Unit): ValueEventListener {
-        return repository.loadUserListener(onDataChanged)
     }
 }

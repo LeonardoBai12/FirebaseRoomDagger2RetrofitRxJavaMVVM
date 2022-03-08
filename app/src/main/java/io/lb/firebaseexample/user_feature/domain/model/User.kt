@@ -10,3 +10,5 @@ data class User(
     var userUID: String? = null,
     var name: String? = null,
 )
+
+class InvalidUserException(message: String) : Exception(message)
