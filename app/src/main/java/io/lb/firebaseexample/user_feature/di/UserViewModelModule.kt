@@ -5,7 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import io.lb.firebaseexample.di.ViewModelKey
-import io.lb.firebaseexample.ui.user.UserViewModel
+import io.lb.firebaseexample.user_feature.presentation.UserViewModel
 
 @Module
 abstract class UserViewModelModule {

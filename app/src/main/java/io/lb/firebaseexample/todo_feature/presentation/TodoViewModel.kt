@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.ui.todo
+package io.lb.firebaseexample.todo_feature.presentation
 
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.MutableLiveData

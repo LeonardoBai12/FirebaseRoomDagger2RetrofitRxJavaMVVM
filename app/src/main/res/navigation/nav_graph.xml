@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="io.lb.firebaseexample.ui.main.MainTodosFragment"
+        android:name="io.lb.firebaseexample.todo_feature.presentation.todo.MainTodosFragment"
         android:label="@string/todos"
         tools:layout="@layout/fragment_todos">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="io.lb.firebaseexample.ui.main.MainSettingsFragment"
+        android:name="io.lb.firebaseexample.todo_feature.presentation.todo.MainSettingsFragment"
         android:label="@string/action_settings"
         tools:layout="@layout/fragment_settings">
 

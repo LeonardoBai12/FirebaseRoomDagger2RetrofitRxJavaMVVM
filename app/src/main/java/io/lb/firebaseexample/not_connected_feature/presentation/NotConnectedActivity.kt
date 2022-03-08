@@ -1,10 +1,10 @@
-package io.lb.firebaseexample.ui.notConnected
+package io.lb.firebaseexample.not_connected_feature.presentation
 
 import android.content.Intent
 import android.os.Bundle
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.databinding.ActivityNotConnectedBinding
-import io.lb.firebaseexample.ui.splash.SplashActivity
+import io.lb.firebaseexample.splash_feature.presentation.SplashActivity
 
 class NotConnectedActivity: DaggerAppCompatActivity() {
     private lateinit var binding: ActivityNotConnectedBinding

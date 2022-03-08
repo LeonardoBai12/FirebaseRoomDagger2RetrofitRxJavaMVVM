@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.ui.main
+package io.lb.firebaseexample.todo_feature.presentation.todo
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,10 +14,10 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityMainBinding
-import io.lb.firebaseexample.ui.login.LoginActivity
-import io.lb.firebaseexample.ui.todo.TodoDetailsActivity
-import io.lb.firebaseexample.ui.todo.TodoViewModel
-import io.lb.firebaseexample.ui.user.UserViewModel
+import io.lb.firebaseexample.user_feature.presentation.LoginActivity
+import io.lb.firebaseexample.todo_feature.presentation.todo_details.TodoDetailsActivity
+import io.lb.firebaseexample.todo_feature.presentation.TodoViewModel
+import io.lb.firebaseexample.user_feature.presentation.UserViewModel
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {

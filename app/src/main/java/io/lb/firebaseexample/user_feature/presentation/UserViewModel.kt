@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.ui.user
+package io.lb.firebaseexample.user_feature.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel

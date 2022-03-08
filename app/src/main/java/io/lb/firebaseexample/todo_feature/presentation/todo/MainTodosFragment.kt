@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.ui.main
+package io.lb.firebaseexample.todo_feature.presentation.todo
 
 import android.os.Bundle
 import android.os.Handler
@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import io.lb.firebaseexample.databinding.FragmentTodosBinding
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
-import io.lb.firebaseexample.ui.todo.TodoViewModel
-import io.lb.firebaseexample.ui.user.UserViewModel
+import io.lb.firebaseexample.todo_feature.presentation.TodoViewModel
+import io.lb.firebaseexample.user_feature.presentation.UserViewModel
 
 class MainTodosFragment : DaggerFragment() {
     private var _binding: FragmentTodosBinding? = null

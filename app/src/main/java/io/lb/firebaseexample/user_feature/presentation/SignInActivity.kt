@@ -1,16 +1,14 @@
-package io.lb.firebaseexample.ui.login
+package io.lb.firebaseexample.user_feature.presentation
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseUser
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.databinding.ActivitySignInBinding
-import io.lb.firebaseexample.ui.main.MainActivity
-import io.lb.firebaseexample.ui.user.UserViewModel
+import io.lb.firebaseexample.todo_feature.presentation.todo.MainActivity
 import timber.log.Timber
 import java.lang.Exception
 import javax.inject.Inject

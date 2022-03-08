@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.ui.todo
+package io.lb.firebaseexample.todo_feature.presentation.todo_details
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.databinding.ActivityTodoDetailsBinding
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
+import io.lb.firebaseexample.todo_feature.presentation.TodoViewModel
 import io.lb.firebaseexample.util.DateHelper
 import timber.log.Timber
 import javax.inject.Inject
