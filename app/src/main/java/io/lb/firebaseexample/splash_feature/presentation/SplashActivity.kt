@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.databinding.ActivitySplashBinding
 import io.lb.firebaseexample.not_connected_feature.presentation.NotConnectedActivity
-import io.lb.firebaseexample.user_feature.presentation.LoginActivity
+import io.lb.firebaseexample.user_feature.presentation.login.LoginActivity
 import io.lb.firebaseexample.todo_feature.presentation.todo.MainActivity
 import io.lb.firebaseexample.util.NetworkHelper
 import javax.inject.Inject

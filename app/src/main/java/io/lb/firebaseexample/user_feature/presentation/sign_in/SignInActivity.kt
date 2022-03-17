@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.user_feature.presentation
+package io.lb.firebaseexample.user_feature.presentation.sign_in
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseUser
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.databinding.ActivitySignInBinding
 import io.lb.firebaseexample.todo_feature.presentation.todo.MainActivity
+import io.lb.firebaseexample.user_feature.presentation.login.LoginViewModel
 import timber.log.Timber
 import java.lang.Exception
 import javax.inject.Inject
@@ -19,7 +20,7 @@ class SignInActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel: UserViewModel by viewModels {
+    private val viewModel: LoginViewModel by viewModels {
         viewModelFactory
     }
 

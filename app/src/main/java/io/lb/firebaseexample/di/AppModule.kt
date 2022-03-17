@@ -14,22 +14,6 @@ import javax.inject.Singleton
 
 @Module
 class AppModule {
-//    @Provides
-//    @Singleton
-//    fun getRetrofitInstance(): Retrofit {
-//        return Retrofit.Builder()
-//            .baseUrl(GeneralConstants.BASE_URL)
-//            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//    }
-//
-//    @Provides
-//    @Singleton
-//    fun getRetrofitServiceInstance(retrofit: Retrofit): RetrofitServiceInterface {
-//        return retrofit.create(RetrofitServiceInterface::class.java)
-//    }
-
     @Provides
     @Singleton
     fun provideAppDatabase(app: Application): AppDatabase {
@@ -39,7 +23,6 @@ class AppModule {
             AppDatabase.DATABASE_NAME
         ).build()
     }
-
 
     @Provides
     @Singleton

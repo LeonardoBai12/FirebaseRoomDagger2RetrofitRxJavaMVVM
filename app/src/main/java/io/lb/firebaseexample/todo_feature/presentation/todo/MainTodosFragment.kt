@@ -12,7 +12,7 @@ import dagger.android.support.DaggerFragment
 import io.lb.firebaseexample.databinding.FragmentTodosBinding
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.todo_feature.presentation.TodoViewModel
-import io.lb.firebaseexample.user_feature.presentation.UserViewModel
+import io.lb.firebaseexample.user_feature.presentation.login.LoginViewModel
 import io.lb.firebaseexample.util.setupSearchTil
 
 class MainTodosFragment : DaggerFragment() {
@@ -21,7 +21,7 @@ class MainTodosFragment : DaggerFragment() {
     private val todoAdapter = MainTodoAdapter()
 
     private lateinit var viewModel: TodoViewModel
-    private lateinit var userViewModel: UserViewModel
+    private lateinit var userViewModel: LoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +63,7 @@ class MainTodosFragment : DaggerFragment() {
             updateTodos(todos)
         }
 
-        userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
+        userViewModel = ViewModelProvider(requireActivity())[LoginViewModel::class.java]
         userViewModel.loadUsersListener { user ->
             binding.tvUser.text = "Olá, ${user.name}!"
         }

@@ -14,10 +14,10 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityMainBinding
-import io.lb.firebaseexample.user_feature.presentation.LoginActivity
+import io.lb.firebaseexample.user_feature.presentation.login.LoginActivity
 import io.lb.firebaseexample.todo_feature.presentation.todo_details.TodoDetailsActivity
 import io.lb.firebaseexample.todo_feature.presentation.TodoViewModel
-import io.lb.firebaseexample.user_feature.presentation.UserViewModel
+import io.lb.firebaseexample.user_feature.presentation.login.LoginViewModel
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
@@ -34,7 +34,7 @@ class MainActivity : DaggerAppCompatActivity() {
         viewModelFactory
     }
 
-    private val userViewModel: UserViewModel by viewModels {
+    private val userViewModel: LoginViewModel by viewModels {
         viewModelFactory
     }
 

@@ -27,11 +27,11 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".user_feature.presentation.LoginActivity"
+            android:name=".user_feature.presentation.login.LoginActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".user_feature.presentation.SignInActivity"
+            android:name=".user_feature.presentation.sign_in.SignInActivity"
             android:exported="true">
         </activity>
         <activity

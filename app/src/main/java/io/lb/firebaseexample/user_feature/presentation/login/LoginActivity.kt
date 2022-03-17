@@ -1,23 +1,20 @@
-package io.lb.firebaseexample.user_feature.presentation
+package io.lb.firebaseexample.user_feature.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseAuth
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityLoginBinding
 import io.lb.firebaseexample.todo_feature.presentation.todo.MainActivity
+import io.lb.firebaseexample.user_feature.presentation.sign_in.SignInActivity
 import timber.log.Timber
 import java.lang.Exception
 import javax.inject.Inject
 
 class LoginActivity : DaggerAppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-
-    @Inject
-    lateinit var auth: FirebaseAuth
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
