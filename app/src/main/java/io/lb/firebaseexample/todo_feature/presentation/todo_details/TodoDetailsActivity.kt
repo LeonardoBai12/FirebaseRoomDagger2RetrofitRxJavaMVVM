@@ -9,7 +9,8 @@ import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.databinding.ActivityTodoDetailsBinding
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.todo_feature.presentation.TodoViewModel
-import io.lb.firebaseexample.util.DateHelper
+import io.lb.firebaseexample.util.datePickerDialog
+import io.lb.firebaseexample.util.dateToString
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -48,7 +49,7 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
     private fun setupDeadlineButton() {
         binding.included.tvTodoDeadline.editText?.setOnClickListener {
             val typedDate = binding.included.tvTodoDeadline.editText?.text.toString()
-            val datePickerDialog = DateHelper.datePickerDialog(
+            val datePickerDialog = datePickerDialog(
                 this,
                 typedDate,
                 onDeadlineDateSet()
@@ -60,7 +61,7 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
     private fun setupDateButton() {
         binding.included.tvTodoDate.editText?.setOnClickListener {
             val typedDate = binding.included.tvTodoDate.editText?.text.toString()
-            val datePickerDialog = DateHelper.datePickerDialog(
+            val datePickerDialog = datePickerDialog(
                 this,
                 typedDate,
                 onDateSet()
@@ -119,7 +120,7 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
 
     private fun onDateSet() : DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { _, year, month, day ->
-            val date = DateHelper.dateToString(day, month, year)
+            val date = dateToString(day, month, year)
             binding.included.tvTodoDate.editText?.setText(
                 date
             )
@@ -128,7 +129,7 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
 
     private fun onDeadlineDateSet(): DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { _, year, month, day ->
-            val date = DateHelper.dateToString(day, month, year)
+            val date = dateToString(day, month, year)
             binding.included.tvTodoDeadline.editText?.setText(
                 date
             )

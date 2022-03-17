@@ -13,7 +13,6 @@ import io.lb.firebaseexample.databinding.FragmentTodosBinding
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.todo_feature.presentation.TodoViewModel
 import io.lb.firebaseexample.user_feature.presentation.login.LoginViewModel
-import io.lb.firebaseexample.util.setupSearchTil
 
 class MainTodosFragment : DaggerFragment() {
     private var _binding: FragmentTodosBinding? = null

@@ -16,6 +16,7 @@ class SignInViewModel @Inject constructor(
     private var typedName: String? = null
     private var typedEmail: String? = null
     private var typedPassword: String? = null
+    private var typedRepeatPassword: String? = null
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -34,12 +35,19 @@ class SignInViewModel @Inject constructor(
                 is SignInEvent.EnteredPassword -> {
                     typedPassword = event.value
                 }
+                is SignInEvent.EnteredRepeatPassword -> {
+                    typedPassword = event.value
+                }
                 is SignInEvent.EnteredName -> {
                     typedName = event.value
                 }
                 is SignInEvent.PressedSignIn -> {
                     try {
-                        useCases.loginUserUseCase(typedEmail, typedPassword).addOnSuccessListener {
+                        useCases.createUserUseCase(
+                            typedEmail,
+                            typedPassword,
+                            typedRepeatPassword
+                        ).addOnSuccessListener {
                             it.user?.let { user ->
                                 useCases.insertUserUseCase(user, typedName ?: "")
                                 emit(UiEvent.SingIn)

@@ -5,13 +5,14 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseUser
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.databinding.ActivitySignInBinding
 import io.lb.firebaseexample.todo_feature.presentation.todo.MainActivity
-import io.lb.firebaseexample.user_feature.presentation.login.LoginViewModel
-import timber.log.Timber
-import java.lang.Exception
+import io.lb.firebaseexample.util.setupDebounceEditText
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SignInActivity : DaggerAppCompatActivity() {
@@ -20,7 +21,7 @@ class SignInActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel: LoginViewModel by viewModels {
+    private val viewModel: SignInViewModel by viewModels {
         viewModelFactory
     }
 
@@ -30,65 +31,74 @@ class SignInActivity : DaggerAppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupUiEvents()
         setupFinishButton()
+        setupOnNameEntered()
+        setupOnEmailEntered()
+        setupOnPasswordEntered()
+        setupOnRepeatPasswordEntered()
     }
 
-    private fun setupFinishButton() {
-        binding.included.btFinish.setOnClickListener {
-            val name = binding.included.tvFullName.editText?.text.toString()
-            val email = binding.included.tvSignInEmail.editText?.text.toString()
-            val password = binding.included.tvSignInPassword.editText?.text.toString()
-            val repeatPassword = binding.included.tvSignInRepeatPassword.editText?.text.toString()
-
-            if (name.isEmpty() && email.isEmpty() &&
-                password.isEmpty() && repeatPassword.isEmpty()) {
-                toastMakeText("Existem campos não preenchidos")
-                return@setOnClickListener
-            } else if (password != repeatPassword) {
-                toastMakeText("As senhas digitadas não conferem")
-                return@setOnClickListener
-            }
-
-            viewModel.createFirebaseUser(
-                this,
-                email,
-                password,
-            ) { task ->
-                if (task.isSuccessful) {
-                    task.result.user?.let {
-                        insertUser(it, name)
+    private fun setupUiEvents() {
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel.eventFlow.collectLatest { event ->
+                when (event) {
+                    is SignInViewModel.UiEvent.ShowToast -> {
+                        toastMakeText(event.message)
                     }
-                } else {
-                    onSignInFailure(task.exception)
+                    is SignInViewModel.UiEvent.SingIn -> {
+                        onSignInSuccess()
+                    }
                 }
             }
         }
     }
 
-    private fun insertUser(
-        it: FirebaseUser,
-        name: String
-    ) = viewModel.insertUser(it.uid, name) { isSuccessful, exception ->
-        if (isSuccessful) {
-            onSignInSuccess()
-        } else {
-            onSignInFailure(exception)
+    private fun setupOnEmailEntered() {
+        binding.included.tilSignInEmail.editText?.let {
+            setupDebounceEditText(it)
+        }?.subscribe {
+            viewModel.onEvent(SignInEvent.EnteredEmail(it))
+        }
+    }
+
+    private fun setupOnPasswordEntered() {
+        binding.included.tilSignInPassword.editText?.let {
+            setupDebounceEditText(it)
+        }?.subscribe {
+            viewModel.onEvent(SignInEvent.EnteredPassword(it))
+        }
+    }
+
+    private fun setupOnRepeatPasswordEntered() {
+        binding.included.tilSignInRepeatPassword.editText?.let {
+            setupDebounceEditText(it)
+        }?.subscribe {
+            viewModel.onEvent(SignInEvent.EnteredRepeatPassword(it))
+        }
+    }
+
+    private fun setupOnNameEntered() {
+        binding.included.tilSignInFullName.editText?.let {
+            setupDebounceEditText(it)
+        }?.subscribe {
+            viewModel.onEvent(SignInEvent.EnteredName(it))
+        }
+    }
+
+    private fun setupFinishButton() {
+        binding.included.btFinish.setOnClickListener {
+            viewModel.onEvent(SignInEvent.PressedSignIn)
         }
     }
 
     private fun onSignInSuccess() {
-        Timber.d("createUser:success")
         val i = Intent(this, MainActivity::class.java)
         startActivity(i)
         finishAffinity()
     }
 
-    private fun onSignInFailure(task: Exception?) {
-        Timber.e("createUser:failure $task")
-        toastMakeText("Authentication failed. $task")
-    }
-
     private fun toastMakeText(text: String) {
-        Toast.makeText(baseContext, text, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 }

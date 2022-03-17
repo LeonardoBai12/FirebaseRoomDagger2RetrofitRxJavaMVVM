@@ -3,14 +3,18 @@ package io.lb.firebaseexample.user_feature.presentation.login
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityLoginBinding
 import io.lb.firebaseexample.todo_feature.presentation.todo.MainActivity
 import io.lb.firebaseexample.user_feature.presentation.sign_in.SignInActivity
-import timber.log.Timber
-import java.lang.Exception
+import io.lb.firebaseexample.util.setupDebounceEditText
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginActivity : DaggerAppCompatActivity() {
@@ -19,6 +23,10 @@ class LoginActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private val viewModel: LoginViewModel by viewModels {
+        viewModelFactory
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_FirebaseExample_NoActionBar)
@@ -26,46 +34,71 @@ class LoginActivity : DaggerAppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupUiEvents()
         setupLoginButton()
         setupSignInButton()
+        setupOnEmailEntered()
+        setupOnPasswordEntered()
+    }
+
+    private fun setupUiEvents() {
+        CoroutineScope(Main).launch {
+            viewModel.eventFlow.collectLatest { event ->
+                when (event) {
+                    is LoginViewModel.UiEvent.ShowToast -> {
+                        toastMakeText(event.message)
+                    }
+                    is LoginViewModel.UiEvent.Login -> {
+                        onSignInSuccess()
+                    }
+                    is LoginViewModel.UiEvent.OpenSignInScreen -> {
+                        openSignInScreen()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun openSignInScreen() {
+        val i = Intent(this, SignInActivity::class.java)
+        startActivity(i)
+    }
+
+    private fun onSignInSuccess() {
+        val i = Intent(this, MainActivity::class.java)
+        startActivity(i)
+        finishAffinity()
     }
 
     private fun setupLoginButton() {
         binding.included.btLogin.setOnClickListener {
-            val email = binding.included.tvLoginEmail.editText?.text.toString()
-            val password = binding.included.tvLoginPassword.editText?.text.toString()
-
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        onSignInSuccess()
-                    } else {
-                        onSignInFailure(task.exception)
-                    }
-                }
+            viewModel.onEvent(LoginEvent.PressedLogin)
         }
-    }
-
-    private fun onSignInSuccess() {
-        Timber.d("signIn:success")
-        val i = Intent(this, MainActivity::class.java)
-        startActivity(i)
-        finish()
-    }
-
-    private fun onSignInFailure(task: Exception?) {
-        Timber.e("signIn:failure $task")
-        Toast.makeText(
-            baseContext,
-            "Authentication failed. $task",
-            Toast.LENGTH_LONG
-        ).show()
     }
 
     private fun setupSignInButton() {
         binding.included.btSignIn.setOnClickListener {
-            val i = Intent(this, SignInActivity::class.java)
-            startActivity(i)
+            viewModel.onEvent(LoginEvent.PressedSignIn)
         }
+    }
+
+    private fun setupOnEmailEntered() {
+        binding.included.tilLoginEmail.editText?.let {
+            setupDebounceEditText(it)
+        }?.subscribe {
+            viewModel.onEvent(LoginEvent.EnteredEmail(it))
+        }
+    }
+
+    private fun setupOnPasswordEntered() {
+        binding.included.tilLoginPassword.editText?.let {
+            setupDebounceEditText(it)
+        }?.subscribe {
+            viewModel.onEvent(LoginEvent.EnteredPassword(it))
+        }
+    }
+
+    private fun toastMakeText(text: String) {
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 }
