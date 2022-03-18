@@ -2,17 +2,19 @@ package io.lb.firebaseexample.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import io.lb.firebaseexample.di.main.MainFragmentBuildersModule
-import io.lb.firebaseexample.di.todo.TodoModule
-import io.lb.firebaseexample.di.todo.TodoViewModelModule
-import io.lb.firebaseexample.di.user.UserModule
-import io.lb.firebaseexample.di.user.UserViewModelModule
-import io.lb.firebaseexample.ui.login.LoginActivity
-import io.lb.firebaseexample.ui.login.SignInActivity
-import io.lb.firebaseexample.ui.main.MainActivity
-import io.lb.firebaseexample.ui.notConnected.NotConnectedActivity
-import io.lb.firebaseexample.ui.splash.SplashActivity
-import io.lb.firebaseexample.ui.todo.TodoDetailsActivity
+import io.lb.firebaseexample.todo_feature.di.MainFragmentBuildersModule
+import io.lb.firebaseexample.todo_feature.di.TodoModule
+import io.lb.firebaseexample.todo_feature.di.MainTodosViewModelModule
+import io.lb.firebaseexample.user_feature.di.UserModule
+import io.lb.firebaseexample.user_feature.di.LoginViewModelModule
+import io.lb.firebaseexample.user_feature.presentation.login.LoginActivity
+import io.lb.firebaseexample.user_feature.presentation.sign_in.SignInActivity
+import io.lb.firebaseexample.todo_feature.presentation.todo.MainActivity
+import io.lb.firebaseexample.not_connected_feature.presentation.NotConnectedActivity
+import io.lb.firebaseexample.splash_feature.presentation.SplashActivity
+import io.lb.firebaseexample.todo_feature.di.TodoDetailViewModelModule
+import io.lb.firebaseexample.todo_feature.presentation.todo_details.TodoDetailsActivity
+import io.lb.firebaseexample.user_feature.di.SignInViewModelModule
 
 @Module
 abstract class ActivityBuildersModule {
@@ -25,7 +27,7 @@ abstract class ActivityBuildersModule {
     @ContributesAndroidInjector(
         modules = [
             UserModule::class,
-            UserViewModelModule::class,
+            LoginViewModelModule::class,
         ]
     )
     abstract fun contributeLoginActivity(): LoginActivity
@@ -33,18 +35,16 @@ abstract class ActivityBuildersModule {
     @ContributesAndroidInjector(
         modules = [
             UserModule::class,
-            UserViewModelModule::class,
+            SignInViewModelModule::class,
         ]
     )
     abstract fun contributeSignInActivity(): SignInActivity
 
     @ContributesAndroidInjector(
         modules = [
-            MainFragmentBuildersModule::class,
             TodoModule::class,
-            TodoViewModelModule::class,
-            UserModule::class,
-            UserViewModelModule::class,
+            MainTodosViewModelModule::class,
+            MainFragmentBuildersModule::class,
         ]
     )
     abstract fun contributeMainActivity(): MainActivity
@@ -52,7 +52,7 @@ abstract class ActivityBuildersModule {
     @ContributesAndroidInjector(
         modules = [
             TodoModule::class,
-            TodoViewModelModule::class,
+            TodoDetailViewModelModule::class,
         ]
     )
     abstract fun contributeTodoActivity(): TodoDetailsActivity

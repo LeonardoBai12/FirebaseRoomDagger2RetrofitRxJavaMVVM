@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tv_full_name"
+        android:id="@+id/til_sign_in_full_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/full_name"
@@ -24,7 +24,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tv_sign_in_email"
+        android:id="@+id/til_sign_in_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email"
@@ -32,7 +32,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@+id/tv_full_name"
+        app:layout_constraintTop_toBottomOf="@+id/til_sign_in_full_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -43,7 +43,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tv_sign_in_password"
+        android:id="@+id/til_sign_in_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
@@ -51,7 +51,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sign_in_email"
+        app:layout_constraintTop_toBottomOf="@+id/til_sign_in_email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -63,7 +63,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tv_sign_in_repeat_password"
+        android:id="@+id/til_sign_in_repeat_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/repeat_password"
@@ -71,7 +71,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sign_in_password"
+        app:layout_constraintTop_toBottomOf="@+id/til_sign_in_password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/finish"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sign_in_repeat_password"
+        app:layout_constraintTop_toBottomOf="@+id/til_sign_in_repeat_password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
