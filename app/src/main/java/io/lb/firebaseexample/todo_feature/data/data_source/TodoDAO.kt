@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.core.Flowable
 @Dao
 interface TodoDAO {
     @Query("SELECT * FROM todo")
-    fun getAllRecords(): Flowable<List<Todo>>
+    fun getAllRecords(): List<Todo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRecord(todo: Todo)

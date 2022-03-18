@@ -16,7 +16,6 @@ import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityMainBinding
 import io.lb.firebaseexample.user_feature.presentation.login.LoginActivity
 import io.lb.firebaseexample.todo_feature.presentation.todo_details.TodoDetailsActivity
-import io.lb.firebaseexample.todo_feature.presentation.TodoViewModel
 import io.lb.firebaseexample.user_feature.presentation.login.LoginViewModel
 import javax.inject.Inject
 

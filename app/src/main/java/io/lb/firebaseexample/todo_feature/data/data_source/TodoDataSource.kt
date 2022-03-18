@@ -7,33 +7,37 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import io.lb.firebaseexample.todo_feature.domain.model.InvalidTodoException
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 class TodoDataSource(
     private val database: FirebaseDatabase,
     private val auth: FirebaseAuth,
 ) {
-    fun insertTodo(todo: Todo, onCompleted: (Boolean, Exception?) -> Unit): Task<Void> {
-        return database.reference
-            .child("todo")
-            .child(auth.currentUser!!.uid)
-            .child(todo.id.toString())
-            .setValue(todo).addOnCompleteListener {
-                onCompleted(it.isSuccessful, it.exception)
-            }
+    fun insertTodo(id: Int, todo: Todo): Task<Void> {
+        return auth.currentUser?.let {
+            database.reference
+                .child("headset")
+                .child(it.uid)
+                .child(id.toString())
+                .setValue(todo)
+        } ?: throw InvalidTodoException("Houve um erro ao salvar a tarefa!")
     }
 
-    fun loadTodos(): Task<DataSnapshot> {
-        return database.getReference("todo").get()
+    fun logout() {
+        auth.signOut()
     }
 
-    fun loadTodosListener(onDataChanged: (ArrayList<Todo>) -> Unit): ValueEventListener {
-        return database.getReference("todo").addValueEventListener(
+    suspend fun getTodos() : List<Todo> = suspendCancellableCoroutine {
+        database.getReference("todo").addValueEventListener(
             object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val hashMap = snapshot.getValue<HashMap<String, ArrayList<Todo>>>()
-                    val todos = hashMap?.get(auth.uid)
-                    onDataChanged(todos ?: arrayListOf())
+                    val hashMap = snapshot.getValue<HashMap<String, List<Todo>>>()
+                    if (it.isActive) {
+                        it.resume(hashMap?.get(auth.uid) ?: listOf())
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {

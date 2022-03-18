@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import io.lb.firebaseexample.databinding.FragmentTodosBinding
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
-import io.lb.firebaseexample.todo_feature.presentation.TodoViewModel
 import io.lb.firebaseexample.user_feature.presentation.login.LoginViewModel
+import io.lb.firebaseexample.util.setupDebounceSearchTil
 
 class MainTodosFragment : DaggerFragment() {
     private var _binding: FragmentTodosBinding? = null
@@ -33,7 +33,7 @@ class MainTodosFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupSearchTil()
+        setupTodoSearchView()
         setupRecyclerView()
         setupViewModel()
     }
@@ -76,8 +76,8 @@ class MainTodosFragment : DaggerFragment() {
         }, 1500)
     }
 
-    private fun setupSearchTil() {
-        setupSearchTil(binding.svTodo).subscribe {
+    private fun setupTodoSearchView() {
+        setupDebounceSearchTil(binding.svTodo).subscribe {
             todoAdapter.getFilter().filter(it)
             disableShimmer()
         }

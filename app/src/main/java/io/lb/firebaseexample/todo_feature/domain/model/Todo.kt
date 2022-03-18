@@ -13,3 +13,5 @@ data class Todo(
     var deadline: String? = null,
     var isCompleted: Boolean = false
 )
+
+class InvalidTodoException(message: String) : Exception(message)

@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.databinding.ActivityTodoDetailsBinding
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
-import io.lb.firebaseexample.todo_feature.presentation.TodoViewModel
 import io.lb.firebaseexample.util.datePickerDialog
 import io.lb.firebaseexample.util.dateToString
 import timber.log.Timber
