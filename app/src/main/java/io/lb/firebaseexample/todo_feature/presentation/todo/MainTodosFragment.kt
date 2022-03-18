@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import io.lb.firebaseexample.databinding.FragmentTodosBinding
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
-import io.lb.firebaseexample.user_feature.presentation.login.LoginViewModel
 import io.lb.firebaseexample.util.setupDebounceSearchTil
 
 class MainTodosFragment : DaggerFragment() {
@@ -39,7 +38,7 @@ class MainTodosFragment : DaggerFragment() {
     }
 
     private fun setupInitialValues() {
-        viewModel.getHeadsets()
+        viewModel.getTodos()
         viewModel.getUser()
     }
 

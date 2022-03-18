@@ -51,7 +51,7 @@ class MainTodosViewModel @Inject constructor(
         }
     }
 
-    fun getHeadsets() {
+    fun getTodos() {
         CoroutineScope(Dispatchers.IO).launch {
             todos.postValue(useCases.getTodosUseCase())
         }

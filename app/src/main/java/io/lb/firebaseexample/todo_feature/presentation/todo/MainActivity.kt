@@ -54,7 +54,7 @@ class MainActivity : DaggerAppCompatActivity() {
         resultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
-            viewModel.getHeadsets()
+            viewModel.getTodos()
         }
     }
 
