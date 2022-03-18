@@ -12,8 +12,21 @@ class TodoRepositoryImpl(
     private val dataSource: TodoDataSource,
     private val dao: TodoDAO
 ): TodoRepository {
-    override fun insertTodo(id: Int, headset: Todo): Task<Void> {
-        return dataSource.insertTodo(id, headset)
+    override fun insertTodo(
+        id: Int,
+        title: String,
+        description: String,
+        date: String,
+        deadline: String
+    ): Task<Void> {
+        val todo = Todo(
+            title = title,
+            description = description,
+            date = date,
+            deadline = deadline,
+            isCompleted = false,
+        )
+        return dataSource.insertTodo(id, todo)
     }
 
     override suspend fun getTodos(): List<Todo> {
