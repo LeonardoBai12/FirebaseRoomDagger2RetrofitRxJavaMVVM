@@ -6,13 +6,16 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.Filter
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 
 class MainTodoAdapter : RecyclerView.Adapter<MainTodoAdapter.ViewHolder>() {
-    private var todos = arrayListOf<Todo>()
-    private var todosFull = arrayListOf<Todo>()
+    private var todos = listOf<Todo>()
+    private var todosFull = listOf<Todo>()
+    lateinit var viewModel: MainTodosViewModel
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -20,26 +23,28 @@ class MainTodoAdapter : RecyclerView.Adapter<MainTodoAdapter.ViewHolder>() {
     ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.row_todo, parent, false)
+        viewModel = ViewModelProvider(
+            parent.context as AppCompatActivity
+        )[MainTodosViewModel::class.java]
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(todos[position])
+
+        holder.itemView.setOnClickListener {
+            viewModel.onEvent(MainTodosEvent.OnTodoClicked(position, todos[position]))
+        }
     }
 
     override fun getItemCount(): Int {
         return todos.size
     }
 
-    fun updateList(todos: ArrayList<Todo>) {
+    fun updateList(todos: List<Todo>) {
         this.todos = todos
         this.todosFull = todos
         notifyDataSetChanged()
-    }
-
-    fun updateTodo(todo: Todo) {
-        todos[todos.indexOf(todo)] = todo
-        notifyItemChanged(todos.indexOf(todo))
     }
 
     fun getFilter(): Filter {

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.todo_feature.domain.use_case.TodoUseCases
+import io.lb.firebaseexample.user_feature.domain.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,14 +18,14 @@ class MainTodosViewModel(
     private val useCases: TodoUseCases
 ): AndroidViewModel(app) {
     val todos = MutableLiveData<List<Todo>>()
+    val user = MutableLiveData<User>()
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
     sealed class UiEvent {
-        data class ShowToast(val message: String): UiEvent()
         data class OnTodoClicked(val id: Int, val todo: Todo): UiEvent()
-        object OnPressedAdd: UiEvent()
+        data class OnPressedAdd(val id: Int): UiEvent()
         object OnPressedSettings: UiEvent()
         object OnLogoutSuccess: UiEvent()
     }
@@ -40,7 +41,7 @@ class MainTodosViewModel(
                     _eventFlow.emit(UiEvent.OnLogoutSuccess)
                 }
                 is MainTodosEvent.PressedAdd -> {
-                    _eventFlow.emit(UiEvent.OnPressedAdd)
+                    _eventFlow.emit(UiEvent.OnPressedAdd(event.id))
                 }
                 is MainTodosEvent.PressedSettings -> {
                     _eventFlow.emit(UiEvent.OnPressedSettings)
@@ -55,9 +56,9 @@ class MainTodosViewModel(
         }
     }
 
-    private fun emitToast(message: String) {
-        viewModelScope.launch {
-            _eventFlow.emit(UiEvent.ShowToast(message))
+    fun getUser() {
+        CoroutineScope(Dispatchers.IO).launch {
+            user.postValue(useCases.getUserUseCase())
         }
     }
 }

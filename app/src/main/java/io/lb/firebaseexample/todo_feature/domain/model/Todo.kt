@@ -2,6 +2,7 @@ package io.lb.firebaseexample.todo_feature.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "todo")
 data class Todo(
@@ -12,6 +13,6 @@ data class Todo(
     var date: String? = null,
     var deadline: String? = null,
     var isCompleted: Boolean = false
-)
+) : Serializable
 
 class InvalidTodoException(message: String) : Exception(message)

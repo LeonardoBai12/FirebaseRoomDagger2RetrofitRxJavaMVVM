@@ -9,8 +9,8 @@ import io.reactivex.rxjava3.core.Flowable
 
 @Dao
 interface UserDAO {
-    @Query("SELECT * FROM user")
-    fun getAllRecords(): Flowable<List<User>>
+    @Query("SELECT * FROM user LIMIT 1")
+    suspend fun getUser(): User?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRecord(user: User)

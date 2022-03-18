@@ -10,30 +10,27 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseAuth
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityMainBinding
+import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.user_feature.presentation.login.LoginActivity
 import io.lb.firebaseexample.todo_feature.presentation.todo_details.TodoDetailsActivity
-import io.lb.firebaseexample.user_feature.presentation.login.LoginViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-
-    @Inject
-    lateinit var auth: FirebaseAuth
+    private var id = 0
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel: TodoViewModel by viewModels {
-        viewModelFactory
-    }
-
-    private val userViewModel: LoginViewModel by viewModels {
+    private val viewModel: MainTodosViewModel by viewModels {
         viewModelFactory
     }
 
@@ -41,10 +38,17 @@ class MainActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setupViewModel()
+        setupUiEvents()
         setupBindings()
 
         setupNavController()
         setupAddButton()
+    }
+
+    private fun setupViewModel() {
+        viewModel.todos.observe(this) {
+            id = it.size
+        }
     }
 
     private fun setupBindings() {
@@ -54,16 +58,49 @@ class MainActivity : DaggerAppCompatActivity() {
         setSupportActionBar(binding.toolbar)
     }
 
-    private fun setupViewModel() {
-        viewModel.loadTodos()
-        userViewModel.loadUser()
+    private fun setupUiEvents() {
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel.eventFlow.collectLatest { event ->
+                when (event) {
+                    is MainTodosViewModel.UiEvent.OnLogoutSuccess -> {
+                        onLogoutSuccess()
+                    }
+                    is MainTodosViewModel.UiEvent.OnPressedAdd -> {
+                        onAddClicked(event.id)
+                    }
+                    is MainTodosViewModel.UiEvent.OnPressedSettings -> {
+
+                    }
+                    is MainTodosViewModel.UiEvent.OnTodoClicked -> {
+                        onTodoClicked(event.id, event.todo)
+                    }
+                }
+            }
+        }
     }
 
     private fun setupAddButton() {
         binding.fabAddNewTodo.setOnClickListener {
-            val i = Intent(this, TodoDetailsActivity::class.java)
-            startActivity(i)
+            viewModel.onEvent(MainTodosEvent.PressedAdd(id))
         }
+    }
+
+    private fun onLogoutClicked(): Boolean {
+        viewModel.onEvent(MainTodosEvent.PressedLogout)
+        return true
+    }
+
+    private fun onAddClicked(id: Int) {
+        val i = Intent(this, TodoDetailsActivity::class.java)
+        i.putExtra(TodoDetailsActivity.ID, id)
+        startActivity(i)
+    }
+
+    private fun onTodoClicked(id: Int, todo: Todo) {
+        val i = Intent(this, TodoDetailsActivity::class.java)
+        i.putExtra(TodoDetailsActivity.ID, id)
+        i.putExtra(TodoDetailsActivity.TODO, todo)
+        startActivity(i)
     }
 
     private fun setupNavController() {
@@ -80,17 +117,15 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> true
-            R.id.action_logout -> onClickLogout()
+            R.id.action_logout -> onLogoutClicked()
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun onClickLogout(): Boolean {
-        auth.signOut()
+    private fun onLogoutSuccess() {
         val i = Intent(this, LoginActivity::class.java)
         startActivity(i)
         finish()
-        return true
     }
 
     override fun onSupportNavigateUp(): Boolean {

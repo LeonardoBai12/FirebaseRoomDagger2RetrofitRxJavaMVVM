@@ -9,10 +9,8 @@ import io.lb.firebaseexample.todo_feature.data.data_source.TodoDAO
 import io.lb.firebaseexample.todo_feature.data.data_source.TodoDataSource
 import io.lb.firebaseexample.todo_feature.data.repository.TodoRepositoryImpl
 import io.lb.firebaseexample.todo_feature.domain.repository.TodoRepository
-import io.lb.firebaseexample.todo_feature.domain.use_case.GetTodosUseCase
-import io.lb.firebaseexample.todo_feature.domain.use_case.LogoutUseCase
-import io.lb.firebaseexample.todo_feature.domain.use_case.SaveTodoUseCase
-import io.lb.firebaseexample.todo_feature.domain.use_case.TodoUseCases
+import io.lb.firebaseexample.todo_feature.domain.use_case.*
+import io.lb.firebaseexample.user_feature.data.data_source.UserDAO
 
 @Module
 class TodoModule {
@@ -25,13 +23,22 @@ class TodoModule {
     }
 
     @Provides
-    fun getAppDao(appDataBase: AppDatabase): TodoDAO {
+    fun getTodoDao(appDataBase: AppDatabase): TodoDAO {
         return appDataBase.todoDao
     }
 
     @Provides
-    fun providesTodoRepository(dataSource: TodoDataSource, dao: TodoDAO): TodoRepository {
-        return TodoRepositoryImpl(dataSource, dao)
+    fun getUserDao(appDataBase: AppDatabase): UserDAO {
+        return appDataBase.userDao
+    }
+
+    @Provides
+    fun providesTodoRepository(
+        dataSource: TodoDataSource,
+        todoDao: TodoDAO,
+        userDao: UserDAO
+    ): TodoRepository {
+        return TodoRepositoryImpl(dataSource, todoDao, userDao)
     }
 
     @Provides
@@ -39,7 +46,8 @@ class TodoModule {
         return TodoUseCases(
             getTodosUseCase = GetTodosUseCase(repository),
             logoutUseCase = LogoutUseCase(repository),
-            saveTodoUseCase = SaveTodoUseCase(repository)
+            saveTodoUseCase = SaveTodoUseCase(repository),
+            getUserUseCase = GetUserUseCase(repository),
         )
     }
 }

@@ -19,8 +19,7 @@ class MainTodosFragment : DaggerFragment() {
     private val binding get() = _binding!!
     private val todoAdapter = MainTodoAdapter()
 
-    private lateinit var viewModel: TodoViewModel
-    private lateinit var userViewModel: LoginViewModel
+    private lateinit var viewModel: MainTodosViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +35,12 @@ class MainTodosFragment : DaggerFragment() {
         setupTodoSearchView()
         setupRecyclerView()
         setupViewModel()
+        setupInitialValues()
+    }
+
+    private fun setupInitialValues() {
+        viewModel.getHeadsets()
+        viewModel.getUser()
     }
 
     private fun setupRecyclerView() {
@@ -57,18 +62,16 @@ class MainTodosFragment : DaggerFragment() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProvider(requireActivity())[TodoViewModel::class.java]
-        viewModel.loadTodosListener { todos ->
-            updateTodos(todos)
+        viewModel = ViewModelProvider(requireActivity())[MainTodosViewModel::class.java]
+        viewModel.todos.observe(viewLifecycleOwner) {
+            updateTodos(it)
         }
-
-        userViewModel = ViewModelProvider(requireActivity())[LoginViewModel::class.java]
-        userViewModel.loadUsersListener { user ->
-            binding.tvUser.text = "Olá, ${user.name}!"
+        viewModel.user.observe(viewLifecycleOwner) {
+            binding.tvUser.text = "Olá, ${it.name}!"
         }
     }
 
-    private fun updateTodos(todos: ArrayList<Todo>) {
+    private fun updateTodos(todos: List<Todo>) {
         todoAdapter.updateList(todos)
 
         Handler(Looper.getMainLooper()).postDelayed({
