@@ -3,7 +3,10 @@ package io.lb.firebaseexample.user_feature.presentation.sign_in
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseUser
 import io.lb.firebaseexample.user_feature.domain.use_case.UserUseCases
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -22,8 +25,8 @@ class SignInViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     sealed class UiEvent {
-        data class ShowToast(val message: String): UiEvent()
-        object SingIn: UiEvent()
+        data class ShowToast(val message: String) : UiEvent()
+        object SingIn : UiEvent()
     }
 
     fun onEvent(event: SignInEvent) {
@@ -36,7 +39,7 @@ class SignInViewModel @Inject constructor(
                     typedPassword = event.value
                 }
                 is SignInEvent.EnteredRepeatPassword -> {
-                    typedPassword = event.value
+                    typedRepeatPassword = event.value
                 }
                 is SignInEvent.EnteredName -> {
                     typedName = event.value
@@ -49,8 +52,7 @@ class SignInViewModel @Inject constructor(
                             typedRepeatPassword
                         ).addOnSuccessListener {
                             it.user?.let { user ->
-                                useCases.insertUserUseCase(user, typedName ?: "")
-                                emit(UiEvent.SingIn)
+                                insertUser(user)
                             }
                         }.addOnFailureListener {
                             emit(exceptionToast(it))
@@ -59,6 +61,13 @@ class SignInViewModel @Inject constructor(
                         _eventFlow.emit(exceptionToast(e))
                     }
                 }
+            }
+        }
+    }
+    private fun insertUser(user: FirebaseUser) {
+        CoroutineScope(Dispatchers.IO).launch {
+            useCases.insertUserUseCase(user, typedName ?: "").addOnSuccessListener {
+                emit(UiEvent.SingIn)
             }
         }
     }

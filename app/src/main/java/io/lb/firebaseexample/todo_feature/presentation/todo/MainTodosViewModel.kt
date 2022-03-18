@@ -12,13 +12,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainTodosViewModel(
+class MainTodosViewModel @Inject constructor(
     app: Application,
     private val useCases: TodoUseCases
 ): AndroidViewModel(app) {
     val todos = MutableLiveData<List<Todo>>()
-    val user = MutableLiveData<User>()
+    val user = MutableLiveData<User?>()
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()

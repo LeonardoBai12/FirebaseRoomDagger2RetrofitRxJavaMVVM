@@ -8,6 +8,8 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
@@ -24,6 +26,7 @@ import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var binding: ActivityMainBinding
     private var id = 0
 
@@ -37,12 +40,22 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setupResultLauncher()
+
         setupViewModel()
         setupUiEvents()
         setupBindings()
 
         setupNavController()
         setupAddButton()
+    }
+
+    private fun setupResultLauncher() {
+        resultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            viewModel.getHeadsets()
+        }
     }
 
     private fun setupViewModel() {
@@ -93,14 +106,14 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun onAddClicked(id: Int) {
         val i = Intent(this, TodoDetailsActivity::class.java)
         i.putExtra(TodoDetailsActivity.ID, id)
-        startActivity(i)
+        resultLauncher.launch(i)
     }
 
     private fun onTodoClicked(id: Int, todo: Todo) {
         val i = Intent(this, TodoDetailsActivity::class.java)
         i.putExtra(TodoDetailsActivity.ID, id)
         i.putExtra(TodoDetailsActivity.TODO, todo)
-        startActivity(i)
+        resultLauncher.launch(i)
     }
 
     private fun setupNavController() {

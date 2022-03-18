@@ -7,6 +7,7 @@ import io.lb.firebaseexample.user_feature.domain.model.User
 
 interface UserRepository {
     fun createFirebaseUser(email: String, password: String): Task<AuthResult>
-    fun insertUserToDatabase(user: FirebaseUser, name: String)
-    fun getUser(email: String, password: String): Task<AuthResult>
+    fun insertUser(firebaseUser: FirebaseUser, name: String): Task<Void>
+    fun getFirebaseUser(email: String, password: String): Task<AuthResult>
+    suspend fun getUser(user: FirebaseUser): User
 }

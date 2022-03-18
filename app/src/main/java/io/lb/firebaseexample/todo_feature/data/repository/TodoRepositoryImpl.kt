@@ -52,7 +52,7 @@ class TodoRepositoryImpl(
         dataSource.logout()
     }
 
-    override suspend fun getUser(): User? {
-        return userDAO.getUser()
+    override suspend fun getUser(): User {
+        return userDAO.getUsers()[0]
     }
 }

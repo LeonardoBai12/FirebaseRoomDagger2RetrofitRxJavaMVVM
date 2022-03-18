@@ -16,7 +16,7 @@ class CreateFirebaseUserUseCase (
         if (password.isNullOrBlank()) {
             throw InvalidUserException("Por favor, digite sua senha")
         }
-        if (repeatPassword.isNullOrBlank()) {
+        if (password != repeatPassword) {
             throw InvalidUserException("As senhas digitadas não conferem")
         }
         return repository.createFirebaseUser(email, password)

@@ -67,7 +67,7 @@ class MainTodosFragment : DaggerFragment() {
             updateTodos(it)
         }
         viewModel.user.observe(viewLifecycleOwner) {
-            binding.tvUser.text = "Olá, ${it.name}!"
+            binding.tvUser.text = "Olá, ${it?.name}!"
         }
     }
 

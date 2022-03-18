@@ -3,7 +3,10 @@ package io.lb.firebaseexample.user_feature.presentation.login
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseUser
 import io.lb.firebaseexample.user_feature.domain.use_case.UserUseCases
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -37,7 +40,9 @@ class LoginViewModel @Inject constructor(
                 is LoginEvent.PressedLogin -> {
                     try {
                         useCases.loginUserUseCase(typedEmail, typedPassword).addOnSuccessListener {
-                            emit(UiEvent.Login)
+                            it.user?.let { user ->
+                                insertUser(user)
+                            }
                         }.addOnFailureListener {
                             emit(exceptionToast(it))
                         }
@@ -48,6 +53,15 @@ class LoginViewModel @Inject constructor(
                 is LoginEvent.PressedSignIn -> {
                     emit(UiEvent.OpenSignInScreen)
                 }
+            }
+        }
+    }
+
+    private fun insertUser(user: FirebaseUser) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val name = useCases.getUserUseCase(user).name
+            useCases.insertUserUseCase(user, name ?: "").addOnSuccessListener {
+                emit(UiEvent.Login)
             }
         }
     }

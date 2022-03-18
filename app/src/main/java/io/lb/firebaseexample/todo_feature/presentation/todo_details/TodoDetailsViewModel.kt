@@ -8,8 +8,9 @@ import io.lb.firebaseexample.user_feature.presentation.login.LoginViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TodoDetailsViewModel(
+class TodoDetailsViewModel @Inject constructor(
     app: Application,
     private val useCases: TodoUseCases
 ): AndroidViewModel(app) {

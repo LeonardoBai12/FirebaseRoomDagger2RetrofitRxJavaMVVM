@@ -8,9 +8,9 @@ import io.lb.firebaseexample.di.ViewModelKey
 import io.lb.firebaseexample.user_feature.presentation.login.LoginViewModel
 
 @Module
-abstract class UserViewModelModule {
+abstract class LoginViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(LoginViewModel::class)
-    abstract fun bindUserViewModel(viewModel: LoginViewModel) : ViewModel
+    abstract fun bindLoginViewModel(viewModel: LoginViewModel) : ViewModel
 }

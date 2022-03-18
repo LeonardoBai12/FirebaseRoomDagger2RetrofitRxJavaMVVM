@@ -9,10 +9,7 @@ import io.lb.firebaseexample.user_feature.data.data_source.UserDAO
 import io.lb.firebaseexample.user_feature.data.data_source.UserDataSource
 import io.lb.firebaseexample.user_feature.data.repository.UserRepositoryImpl
 import io.lb.firebaseexample.user_feature.domain.repository.UserRepository
-import io.lb.firebaseexample.user_feature.domain.use_case.CreateFirebaseUserUseCase
-import io.lb.firebaseexample.user_feature.domain.use_case.LoginFirebaseUserUseCase
-import io.lb.firebaseexample.user_feature.domain.use_case.InsertUserUseCase
-import io.lb.firebaseexample.user_feature.domain.use_case.UserUseCases
+import io.lb.firebaseexample.user_feature.domain.use_case.*
 
 @Module
 class UserModule {
@@ -39,7 +36,8 @@ class UserModule {
         return UserUseCases(
             loginUserUseCase = LoginFirebaseUserUseCase(repository),
             createUserUseCase = CreateFirebaseUserUseCase(repository),
-            insertUserUseCase = InsertUserUseCase(repository)
+            insertUserUseCase = InsertUserUseCase(repository),
+            getUserUseCase = GetUserUseCase(repository)
         )
     }
 }

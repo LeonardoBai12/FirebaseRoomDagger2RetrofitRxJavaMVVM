@@ -17,6 +17,6 @@ class LoginFirebaseUserUseCase(
             throw InvalidUserException("Por favor, digite sua senha")
         }
 
-        return repository.getUser(email, password)
+        return repository.getFirebaseUser(email, password)
     }
 }

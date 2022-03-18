@@ -16,11 +16,17 @@ class UserRepositoryImpl(
         return dataSource.createFirebaseUser(email, password)
     }
 
-    override fun insertUserToDatabase(user: FirebaseUser, name: String) {
-        dao.insertRecord(User(0, user.uid, name))
+    override fun insertUser(firebaseUser: FirebaseUser, name: String): Task<Void> {
+        val user = User(0, firebaseUser.uid, name)
+        dao.insertRecord(user)
+        return dataSource.insertUser(user)
     }
 
-    override fun getUser(email: String, password: String): Task<AuthResult> {
+    override fun getFirebaseUser(email: String, password: String): Task<AuthResult> {
         return dataSource.loginFirebaseUser(email, password)
+    }
+
+    override suspend fun getUser(user: FirebaseUser): User {
+        return dataSource.getUser(user)[0]
     }
 }
