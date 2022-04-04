@@ -35,6 +35,13 @@ class MainTodosFragment : DaggerFragment() {
         setupRecyclerView()
         setupViewModel()
         setupInitialValues()
+        setupAddButton()
+    }
+
+    private fun setupAddButton() {
+        binding.fabAddNewTodo.setOnClickListener {
+            viewModel.onEvent(MainTodosEvent.PressedAdd(id))
+        }
     }
 
     private fun setupInitialValues() {

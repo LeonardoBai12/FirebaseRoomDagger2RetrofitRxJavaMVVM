@@ -12,9 +12,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityMainBinding
+import io.lb.firebaseexample.settings_feature.presentation.MainSettingsFragment
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.user_feature.presentation.login.LoginActivity
 import io.lb.firebaseexample.todo_feature.presentation.todo_details.TodoDetailsActivity
@@ -47,7 +50,6 @@ class MainActivity : DaggerAppCompatActivity() {
         setupBindings()
 
         setupNavController()
-        setupAddButton()
     }
 
     private fun setupResultLauncher() {
@@ -92,12 +94,6 @@ class MainActivity : DaggerAppCompatActivity() {
         }
     }
 
-    private fun setupAddButton() {
-        binding.fabAddNewTodo.setOnClickListener {
-            viewModel.onEvent(MainTodosEvent.PressedAdd(id))
-        }
-    }
-
     private fun onLogoutClicked(): Boolean {
         viewModel.onEvent(MainTodosEvent.PressedLogout)
         return true
@@ -120,6 +116,14 @@ class MainActivity : DaggerAppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.label == getString(R.string.action_settings)) {
+                supportActionBar?.hide()
+            } else {
+                supportActionBar?.show()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -129,10 +133,16 @@ class MainActivity : DaggerAppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> onSettingsClicked()
             R.id.action_logout -> onLogoutClicked()
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun onSettingsClicked(): Boolean {
+        findNavController(R.id.nav_host_fragment_content_main)
+            .navigate(R.id.action_MainTodosFragment_to_MainSettingsFragment)
+        return true
     }
 
     private fun onLogoutSuccess() {
