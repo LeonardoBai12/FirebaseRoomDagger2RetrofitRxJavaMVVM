@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.todo_feature.presentation.todo
+package io.lb.firebaseexample.settings_feature.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
