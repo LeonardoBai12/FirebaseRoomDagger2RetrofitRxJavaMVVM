@@ -27,7 +27,7 @@ class MainSettingsFragment : DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupViewModel()
-        setupFullName()
+        setupInitialValues()
         setupObservers()
         setupListeners()
     }
@@ -36,29 +36,22 @@ class MainSettingsFragment : DaggerFragment() {
         viewModel = ViewModelProvider(requireActivity())[SettingsViewModel::class.java]
     }
 
-    private fun setupFullName() {
-        binding.tilSettingsFullName.editText?.setText(
-            viewModel.typedName
-        )
-    }
-
     private fun setupObservers() {
         viewModel.showGreetings.observe(viewLifecycleOwner) {
-            binding.scShowGreetings.isChecked = it ?: false
+            binding.scShowGreetings.isChecked = it ?: true
         }
-        viewModel.getShowGreetings()
 
         viewModel.allowRestartTodo.observe(viewLifecycleOwner) {
             binding.scAllowRestartTodo.isChecked = it ?: false
         }
+    }
+
+    private fun setupInitialValues() {
+        viewModel.getShowGreetings()
         viewModel.getAllowRestartTodo()
     }
 
     private fun setupListeners() {
-        binding.tilSettingsFullName.editText?.addTextChangedListener {
-            viewModel.onEvent(SettingsEvent.EnteredName(it.toString()))
-        }
-
         binding.scAllowRestartTodo.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onEvent(SettingsEvent.OnAllowRestartTodoSwitched(isChecked))
         }

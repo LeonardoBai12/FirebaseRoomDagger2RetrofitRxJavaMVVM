@@ -70,9 +70,7 @@ class MainActivity : DaggerAppCompatActivity() {
             id = it.size
         }
 
-        viewModel.user.observe(this) {
-            settingsViewModel.typedName = it?.name
-        }
+        settingsViewModel.getAllowRestartTodo()
     }
 
     private fun setupBindings() {

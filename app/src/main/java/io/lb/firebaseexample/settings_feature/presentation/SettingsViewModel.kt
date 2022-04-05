@@ -15,17 +15,12 @@ class SettingsViewModel @Inject constructor(
     app: Application,
     private val useCases: SettingsUseCases
 ): AndroidViewModel(app) {
-    var typedName: String? = null
-
     val allowRestartTodo = MutableLiveData<Boolean?>()
     val showGreetings = MutableLiveData<Boolean?>()
 
     fun onEvent(event: SettingsEvent) {
         viewModelScope.launch {
             when (event) {
-                is SettingsEvent.EnteredName -> {
-                    typedName = event.value
-                }
                 is SettingsEvent.OnAllowRestartTodoSwitched -> {
                     useCases.saveSettingUseCase(DataStoreKeys.ALLOW_RESTART_TODO, event.value)
                 }

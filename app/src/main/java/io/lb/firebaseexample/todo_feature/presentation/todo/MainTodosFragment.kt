@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import io.lb.firebaseexample.databinding.FragmentTodosBinding
+import io.lb.firebaseexample.settings_feature.presentation.SettingsViewModel
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.util.setupDebounceSearchTil
 
@@ -19,6 +20,7 @@ class MainTodosFragment : DaggerFragment() {
     private val todoAdapter = MainTodoAdapter()
 
     private lateinit var viewModel: MainTodosViewModel
+    private lateinit var settingsViewModel: SettingsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +49,8 @@ class MainTodosFragment : DaggerFragment() {
     private fun setupInitialValues() {
         viewModel.getTodos()
         viewModel.getUser()
+
+        settingsViewModel.getShowGreetings()
     }
 
     private fun setupRecyclerView() {
@@ -69,11 +73,22 @@ class MainTodosFragment : DaggerFragment() {
 
     private fun setupViewModel() {
         viewModel = ViewModelProvider(requireActivity())[MainTodosViewModel::class.java]
+
         viewModel.todos.observe(viewLifecycleOwner) {
             updateTodos(it)
         }
         viewModel.user.observe(viewLifecycleOwner) {
             binding.tvUser.text = "Olá, ${it?.name}!"
+        }
+
+        settingsViewModel = ViewModelProvider(requireActivity())[SettingsViewModel::class.java]
+
+        settingsViewModel.showGreetings.observe(viewLifecycleOwner) {
+            binding.tvUser.visibility = if (it != false) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
         }
     }
 
