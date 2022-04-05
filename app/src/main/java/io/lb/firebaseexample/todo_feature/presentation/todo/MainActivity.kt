@@ -116,19 +116,21 @@ class MainActivity : DaggerAppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.label == getString(R.string.action_settings)) {
-                supportActionBar?.hide()
-            } else {
-                supportActionBar?.show()
-            }
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        onFragmentChangeListener(menu)
         return true
+    }
+
+    private fun onFragmentChangeListener(menu: Menu) {
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            menu.getItem(0).isVisible =
+                destination.label != getString(R.string.action_settings)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

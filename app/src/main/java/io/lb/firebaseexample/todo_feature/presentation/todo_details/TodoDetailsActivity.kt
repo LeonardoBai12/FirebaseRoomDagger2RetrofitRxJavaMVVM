@@ -56,15 +56,15 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
         todo = intent.getSerializableExtra(TODO) as Todo?
 
         todo?.let {
-            binding.included.tvTodoTitle.editText?.setText(it.title)
-            binding.included.tvTodoDescription.editText?.setText(it.description)
-            binding.included.tvTodoDate.editText?.setText(it.date)
-            binding.included.tvTodoDeadline.editText?.setText(it.deadline)
+            binding.included.tilTodoTitle.editText?.setText(it.title)
+            binding.included.tilTodoDescription.editText?.setText(it.description)
+            binding.included.tilTodoDate.editText?.setText(it.date)
+            binding.included.tilTodoDeadline.editText?.setText(it.deadline)
         }
     }
 
     private fun setupTitleTextChanged() {
-        binding.included.tvTodoTitle.editText?.let {
+        binding.included.tilTodoTitle.editText?.let {
             setupDebounceEditText(it)
         }?.subscribe {
             viewModel.onEvent(TodoDetailsEvent.EnteredTitle(it))
@@ -72,7 +72,7 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupDescriptionTextChanged() {
-        binding.included.tvTodoDescription.editText?.let {
+        binding.included.tilTodoDescription.editText?.let {
             setupDebounceEditText(it)
         }?.subscribe {
             viewModel.onEvent(TodoDetailsEvent.EnteredDescription(it))
@@ -80,13 +80,13 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupDateTextChanged() {
-        binding.included.tvTodoDate.editText?.doAfterTextChanged {
+        binding.included.tilTodoDate.editText?.doAfterTextChanged {
             viewModel.onEvent(TodoDetailsEvent.EnteredDate(it.toString()))
         }
     }
 
     private fun setupDeadlineTextChanged() {
-        binding.included.tvTodoDeadline.editText?.doAfterTextChanged {
+        binding.included.tilTodoDeadline.editText?.doAfterTextChanged {
             viewModel.onEvent(TodoDetailsEvent.EnteredDeadline(it.toString()))
         }
     }
@@ -108,14 +108,14 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
 
     private fun setupHasDeadlineCheckbox() {
         binding.included.chkWithoutDeadline.setOnCheckedChangeListener { _, isChecked ->
-            binding.included.tvTodoDeadline.editText?.setText("")
-            binding.included.tvTodoDeadline.editText?.isEnabled = !isChecked
+            binding.included.tilTodoDeadline.editText?.setText("")
+            binding.included.tilTodoDeadline.editText?.isEnabled = !isChecked
         }
     }
 
     private fun setupDeadlineClick() {
-        binding.included.tvTodoDeadline.editText?.setOnClickListener {
-            val typedDate = binding.included.tvTodoDeadline.editText?.text.toString()
+        binding.included.tilTodoDeadline.editText?.setOnClickListener {
+            val typedDate = binding.included.tilTodoDeadline.editText?.text.toString()
             val datePickerDialog = datePickerDialog(
                 this,
                 typedDate,
@@ -126,8 +126,8 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupDateClick() {
-        binding.included.tvTodoDate.editText?.setOnClickListener {
-            val typedDate = binding.included.tvTodoDate.editText?.text.toString()
+        binding.included.tilTodoDate.editText?.setOnClickListener {
+            val typedDate = binding.included.tilTodoDate.editText?.text.toString()
             val datePickerDialog = datePickerDialog(
                 this,
                 typedDate,
@@ -150,7 +150,7 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
     private fun onDateSet() : DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { _, year, month, day ->
             val date = dateToString(day, month, year)
-            binding.included.tvTodoDate.editText?.setText(
+            binding.included.tilTodoDate.editText?.setText(
                 date
             )
         }
@@ -159,7 +159,7 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
     private fun onDeadlineDateSet(): DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { _, year, month, day ->
             val date = dateToString(day, month, year)
-            binding.included.tvTodoDeadline.editText?.setText(
+            binding.included.tilTodoDeadline.editText?.setText(
                 date
             )
         }
