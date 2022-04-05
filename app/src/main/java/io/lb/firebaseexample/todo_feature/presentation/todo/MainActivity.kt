@@ -18,6 +18,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityMainBinding
 import io.lb.firebaseexample.settings_feature.presentation.MainSettingsFragment
+import io.lb.firebaseexample.settings_feature.presentation.SettingsViewModel
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.user_feature.presentation.login.LoginActivity
 import io.lb.firebaseexample.todo_feature.presentation.todo_details.TodoDetailsActivity
@@ -37,6 +38,10 @@ class MainActivity : DaggerAppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel: MainTodosViewModel by viewModels {
+        viewModelFactory
+    }
+
+    private val settingsViewModel: SettingsViewModel by viewModels {
         viewModelFactory
     }
 
@@ -63,6 +68,10 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun setupViewModel() {
         viewModel.todos.observe(this) {
             id = it.size
+        }
+
+        viewModel.user.observe(this) {
+            settingsViewModel.typedName = it?.name
         }
     }
 

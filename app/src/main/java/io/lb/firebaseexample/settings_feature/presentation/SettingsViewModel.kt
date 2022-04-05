@@ -2,9 +2,12 @@ package io.lb.firebaseexample.settings_feature.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import io.lb.firebaseexample.settings_feature.domain.use_case.SettingsUseCases
 import io.lb.firebaseexample.util.DataStoreKeys
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -12,7 +15,10 @@ class SettingsViewModel @Inject constructor(
     app: Application,
     private val useCases: SettingsUseCases
 ): AndroidViewModel(app) {
-    private var typedName: String? = null
+    var typedName: String? = null
+
+    val allowRestartTodo = MutableLiveData<Boolean?>()
+    val showGreetings = MutableLiveData<Boolean?>()
 
     fun onEvent(event: SettingsEvent) {
         viewModelScope.launch {
@@ -30,7 +36,19 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    suspend fun getSetting(key: String): Boolean {
-        return useCases.getSettingsUseCase(key)
+    fun getAllowRestartTodo() {
+        CoroutineScope(Dispatchers.IO).launch {
+            allowRestartTodo.postValue(
+                useCases.getSettingsUseCase(DataStoreKeys.ALLOW_RESTART_TODO)
+            )
+        }
+    }
+
+    fun getShowGreetings() {
+        CoroutineScope(Dispatchers.IO).launch {
+            showGreetings.postValue(
+                useCases.getSettingsUseCase(DataStoreKeys.SHOW_GREETINGS)
+            )
+        }
     }
 }
