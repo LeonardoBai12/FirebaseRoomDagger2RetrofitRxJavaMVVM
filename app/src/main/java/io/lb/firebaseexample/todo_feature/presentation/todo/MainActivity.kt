@@ -90,7 +90,7 @@ class MainActivity : DaggerAppCompatActivity() {
                         onLogoutSuccess()
                     }
                     is MainTodosViewModel.UiEvent.OnPressedAdd -> {
-                        onAddClicked(event.id)
+                        onAddClicked()
                     }
                     is MainTodosViewModel.UiEvent.OnPressedSettings -> {
 
@@ -108,7 +108,7 @@ class MainActivity : DaggerAppCompatActivity() {
         return true
     }
 
-    private fun onAddClicked(id: Int) {
+    private fun onAddClicked() {
         val i = Intent(this, TodoDetailsActivity::class.java)
         i.putExtra(TodoDetailsActivity.ID, id)
         resultLauncher.launch(i)

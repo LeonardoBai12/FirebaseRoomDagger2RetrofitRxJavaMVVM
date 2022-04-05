@@ -40,7 +40,7 @@ class MainTodosFragment : DaggerFragment() {
 
     private fun setupAddButton() {
         binding.fabAddNewTodo.setOnClickListener {
-            viewModel.onEvent(MainTodosEvent.PressedAdd(id))
+            viewModel.onEvent(MainTodosEvent.PressedAdd)
         }
     }
 
