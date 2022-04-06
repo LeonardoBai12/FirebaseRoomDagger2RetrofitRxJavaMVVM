@@ -12,9 +12,13 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityMainBinding
+import io.lb.firebaseexample.settings_feature.presentation.MainSettingsFragment
+import io.lb.firebaseexample.settings_feature.presentation.SettingsViewModel
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.user_feature.presentation.login.LoginActivity
 import io.lb.firebaseexample.todo_feature.presentation.todo_details.TodoDetailsActivity
@@ -37,6 +41,10 @@ class MainActivity : DaggerAppCompatActivity() {
         viewModelFactory
     }
 
+    private val settingsViewModel: SettingsViewModel by viewModels {
+        viewModelFactory
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,7 +55,6 @@ class MainActivity : DaggerAppCompatActivity() {
         setupBindings()
 
         setupNavController()
-        setupAddButton()
     }
 
     private fun setupResultLauncher() {
@@ -62,6 +69,8 @@ class MainActivity : DaggerAppCompatActivity() {
         viewModel.todos.observe(this) {
             id = it.size
         }
+
+        settingsViewModel.getAllowRestartTodo()
     }
 
     private fun setupBindings() {
@@ -79,7 +88,7 @@ class MainActivity : DaggerAppCompatActivity() {
                         onLogoutSuccess()
                     }
                     is MainTodosViewModel.UiEvent.OnPressedAdd -> {
-                        onAddClicked(event.id)
+                        onAddClicked()
                     }
                     is MainTodosViewModel.UiEvent.OnPressedSettings -> {
 
@@ -92,18 +101,12 @@ class MainActivity : DaggerAppCompatActivity() {
         }
     }
 
-    private fun setupAddButton() {
-        binding.fabAddNewTodo.setOnClickListener {
-            viewModel.onEvent(MainTodosEvent.PressedAdd(id))
-        }
-    }
-
     private fun onLogoutClicked(): Boolean {
         viewModel.onEvent(MainTodosEvent.PressedLogout)
         return true
     }
 
-    private fun onAddClicked(id: Int) {
+    private fun onAddClicked() {
         val i = Intent(this, TodoDetailsActivity::class.java)
         i.putExtra(TodoDetailsActivity.ID, id)
         resultLauncher.launch(i)
@@ -124,15 +127,31 @@ class MainActivity : DaggerAppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        onFragmentChangeListener(menu)
         return true
+    }
+
+    private fun onFragmentChangeListener(menu: Menu) {
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            menu.getItem(0).isVisible =
+                destination.label != getString(R.string.action_settings)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> onSettingsClicked()
             R.id.action_logout -> onLogoutClicked()
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun onSettingsClicked(): Boolean {
+        findNavController(R.id.nav_host_fragment_content_main)
+            .navigate(R.id.action_MainTodosFragment_to_MainSettingsFragment)
+        return true
     }
 
     private fun onLogoutSuccess() {

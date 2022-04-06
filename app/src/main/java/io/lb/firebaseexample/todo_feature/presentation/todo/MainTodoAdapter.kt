@@ -10,12 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import io.lb.firebaseexample.R
+import io.lb.firebaseexample.settings_feature.presentation.SettingsViewModel
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 
 class MainTodoAdapter : RecyclerView.Adapter<MainTodoAdapter.ViewHolder>() {
     private var todos = listOf<Todo>()
     private var todosFull = listOf<Todo>()
     lateinit var viewModel: MainTodosViewModel
+    lateinit var settingsViewModel: SettingsViewModel
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,14 +28,35 @@ class MainTodoAdapter : RecyclerView.Adapter<MainTodoAdapter.ViewHolder>() {
         viewModel = ViewModelProvider(
             parent.context as AppCompatActivity
         )[MainTodosViewModel::class.java]
+        settingsViewModel = ViewModelProvider(
+            parent.context as AppCompatActivity
+        )[SettingsViewModel::class.java]
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(todos[position])
+        val todo = todos[position]
+        holder.bind(todo)
+
+        disableIfNotAllowed(holder, todo)
+
+        holder.chkIsCompleted.setOnCheckedChangeListener { _, isChecked ->
+            todo.isCompleted = isChecked
+            disableIfNotAllowed(holder, todo)
+        }
 
         holder.itemView.setOnClickListener {
-            viewModel.onEvent(MainTodosEvent.OnTodoClicked(position, todos[position]))
+            viewModel.onEvent(MainTodosEvent.OnTodoClicked(position, todo))
+        }
+    }
+
+    private fun disableIfNotAllowed(
+        holder: ViewHolder,
+        todo: Todo
+    ) {
+        val allowRestart = settingsViewModel.allowRestartTodo.value != true
+        if (allowRestart) {
+            holder.chkIsCompleted.isEnabled = !todo.isCompleted
         }
     }
 
@@ -85,7 +108,7 @@ class MainTodoAdapter : RecyclerView.Adapter<MainTodoAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val tvTodoTitle: TextView = view.findViewById(R.id.tv_todo_title)
-        private val chkIsCompleted : CheckBox = view.findViewById(R.id.chk_is_completed)
+        val chkIsCompleted : CheckBox = view.findViewById(R.id.chk_is_completed)
 
         fun bind(todo: Todo) {
             tvTodoTitle.text = todo.title

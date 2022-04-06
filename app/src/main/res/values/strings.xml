@@ -18,4 +18,6 @@
     <string name="deadline">Prazo</string>
     <string name="todos">Tarefas</string>
     <string name="search">Pesquisar</string>
+    <string name="show_greetings">Apresentar saudações</string>
+    <string name="allow_restart_todo">Permitir reiniciar tarefa</string>
 </resources>

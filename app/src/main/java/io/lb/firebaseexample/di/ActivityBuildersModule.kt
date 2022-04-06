@@ -11,6 +11,8 @@ import io.lb.firebaseexample.user_feature.presentation.login.LoginActivity
 import io.lb.firebaseexample.user_feature.presentation.sign_in.SignInActivity
 import io.lb.firebaseexample.todo_feature.presentation.todo.MainActivity
 import io.lb.firebaseexample.not_connected_feature.presentation.NotConnectedActivity
+import io.lb.firebaseexample.settings_feature.di.SettingsModule
+import io.lb.firebaseexample.settings_feature.di.SettingsViewModelModule
 import io.lb.firebaseexample.splash_feature.presentation.SplashActivity
 import io.lb.firebaseexample.todo_feature.di.TodoDetailViewModelModule
 import io.lb.firebaseexample.todo_feature.presentation.todo_details.TodoDetailsActivity
@@ -45,6 +47,8 @@ abstract class ActivityBuildersModule {
             TodoModule::class,
             MainTodosViewModelModule::class,
             MainFragmentBuildersModule::class,
+            SettingsModule::class,
+            SettingsViewModelModule::class,
         ]
     )
     abstract fun contributeMainActivity(): MainActivity

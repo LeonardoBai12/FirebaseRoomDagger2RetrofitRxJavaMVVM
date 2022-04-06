@@ -10,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import io.lb.firebaseexample.db.AppDatabase
+import io.lb.firebaseexample.settings_feature.data.data_source.SettingsDataSource
 import javax.inject.Singleton
 
 @Module
@@ -34,5 +35,11 @@ class AppModule {
     @Singleton
     fun getFirebaseDatabase(): FirebaseDatabase {
         return Firebase.database
+    }
+
+    @Provides
+    @Singleton
+    fun providesSettingsDataSource(context: Application): SettingsDataSource {
+        return SettingsDataSource(context)
     }
 }

@@ -26,7 +26,7 @@ class MainTodosViewModel @Inject constructor(
 
     sealed class UiEvent {
         data class OnTodoClicked(val id: Int, val todo: Todo): UiEvent()
-        data class OnPressedAdd(val id: Int): UiEvent()
+        object OnPressedAdd: UiEvent()
         object OnPressedSettings: UiEvent()
         object OnLogoutSuccess: UiEvent()
     }
@@ -42,7 +42,7 @@ class MainTodosViewModel @Inject constructor(
                     _eventFlow.emit(UiEvent.OnLogoutSuccess)
                 }
                 is MainTodosEvent.PressedAdd -> {
-                    _eventFlow.emit(UiEvent.OnPressedAdd(event.id))
+                    _eventFlow.emit(UiEvent.OnPressedAdd)
                 }
                 is MainTodosEvent.PressedSettings -> {
                     _eventFlow.emit(UiEvent.OnPressedSettings)
