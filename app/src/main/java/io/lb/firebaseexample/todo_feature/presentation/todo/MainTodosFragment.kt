@@ -51,6 +51,7 @@ class MainTodosFragment : DaggerFragment() {
         viewModel.getUser()
 
         settingsViewModel.getShowGreetings()
+        settingsViewModel.getAllowRestartTodo()
     }
 
     private fun setupRecyclerView() {
