@@ -8,6 +8,8 @@ import io.lb.firebaseexample.todo_feature.domain.repository.TodoRepository
 import io.lb.firebaseexample.user_feature.data.data_source.UserDAO
 import io.lb.firebaseexample.user_feature.domain.model.User
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
 class TodoRepositoryImpl(
@@ -32,9 +34,11 @@ class TodoRepositoryImpl(
         return dataSource.insertTodo(id, todo)
     }
 
-    override suspend fun getTodos(): List<Todo> {
+    override suspend fun getTodos(): Flow<List<Todo>> {
         updateDatabase()
-        return todoDAO.getAllRecords()
+        return flow {
+            emit(todoDAO.getAllRecords())
+        }
     }
 
     private suspend fun updateDatabase() = withContext(Dispatchers.IO) {
@@ -43,6 +47,7 @@ class TodoRepositoryImpl(
         }.getOrNull() ?: return@withContext
 
         todoDAO.deleteAllRecords()
+
         todos.forEach {
             todoDAO.insertRecord(it)
         }
