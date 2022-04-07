@@ -3,6 +3,7 @@ package io.lb.firebaseexample.todo_feature.domain.repository
 import com.google.android.gms.tasks.Task
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.user_feature.domain.model.User
+import kotlinx.coroutines.flow.Flow
 
 interface TodoRepository {
     fun insertTodo(
@@ -12,7 +13,7 @@ interface TodoRepository {
         date: String?,
         deadline: String?
     ): Task<Void>
-    suspend fun getTodos(): List<Todo>
+    suspend fun getTodos(): Flow<List<Todo>>
     fun logout()
     suspend fun getUser(): User?
 }
