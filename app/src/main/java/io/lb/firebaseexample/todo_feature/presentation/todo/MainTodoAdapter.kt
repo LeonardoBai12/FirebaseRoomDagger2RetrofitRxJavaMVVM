@@ -43,6 +43,7 @@ class MainTodoAdapter : RecyclerView.Adapter<MainTodoAdapter.ViewHolder>() {
         holder.chkIsCompleted.setOnCheckedChangeListener { _, isChecked ->
             todo.isCompleted = isChecked
             disableIfNotAllowed(holder, todo)
+            viewModel.onEvent(MainTodosEvent.OnTodoCheckClicked(position, todo))
         }
 
         holder.itemView.setOnClickListener {

@@ -39,6 +39,9 @@ class MainTodosViewModel @Inject constructor(
                 is MainTodosEvent.OnTodoClicked -> {
                     _eventFlow.emit(UiEvent.OnTodoClicked(event.id, event.todo))
                 }
+                is MainTodosEvent.OnTodoCheckClicked -> {
+                    useCases.updateTodo(event.id, event.todo)
+                }
                 is MainTodosEvent.PressedLogout -> {
                     useCases.logoutUseCase()
                     _eventFlow.emit(UiEvent.OnLogoutSuccess)

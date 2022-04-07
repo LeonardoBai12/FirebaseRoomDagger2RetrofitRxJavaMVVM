@@ -34,6 +34,10 @@ class TodoRepositoryImpl(
         return dataSource.insertTodo(id, todo)
     }
 
+    override fun updateTodo(id: Int, todo: Todo): Task<Void> {
+        return dataSource.insertTodo(id, todo)
+    }
+
     override suspend fun getTodos(): Flow<List<Todo>> {
         updateDatabase()
         return flow {
