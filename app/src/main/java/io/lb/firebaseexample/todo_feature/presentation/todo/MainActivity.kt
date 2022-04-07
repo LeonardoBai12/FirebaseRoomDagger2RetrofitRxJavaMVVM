@@ -66,8 +66,10 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        viewModel.todos.observe(this) {
-            id = it.size
+        viewModel.todos.observe(this) { todos ->
+            todos?.let {
+                id = it.size
+            }
         }
 
         settingsViewModel.getAllowRestartTodo()
@@ -89,9 +91,6 @@ class MainActivity : DaggerAppCompatActivity() {
                     }
                     is MainTodosViewModel.UiEvent.OnPressedAdd -> {
                         onAddClicked()
-                    }
-                    is MainTodosViewModel.UiEvent.OnPressedSettings -> {
-
                     }
                     is MainTodosViewModel.UiEvent.OnTodoClicked -> {
                         onTodoClicked(event.id, event.todo)

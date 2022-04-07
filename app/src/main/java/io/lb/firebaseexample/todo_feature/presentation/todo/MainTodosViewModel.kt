@@ -20,7 +20,7 @@ class MainTodosViewModel @Inject constructor(
     app: Application,
     private val useCases: TodoUseCases
 ): AndroidViewModel(app) {
-    val todos = MutableLiveData<List<Todo>>()
+    val todos = MutableLiveData<List<Todo>?>()
     val user = MutableLiveData<User?>()
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
@@ -29,7 +29,6 @@ class MainTodosViewModel @Inject constructor(
     sealed class UiEvent {
         data class OnTodoClicked(val id: Int, val todo: Todo): UiEvent()
         object OnPressedAdd: UiEvent()
-        object OnPressedSettings: UiEvent()
         object OnLogoutSuccess: UiEvent()
     }
 
@@ -49,16 +48,13 @@ class MainTodosViewModel @Inject constructor(
                 is MainTodosEvent.PressedAdd -> {
                     _eventFlow.emit(UiEvent.OnPressedAdd)
                 }
-                is MainTodosEvent.PressedSettings -> {
-                    _eventFlow.emit(UiEvent.OnPressedSettings)
-                }
             }
         }
     }
 
     fun getTodos() {
         CoroutineScope(Dispatchers.IO).launch {
-            useCases.getTodosUseCase().collect {
+            useCases.getTodosUseCase().collectLatest {
                 todos.postValue(it)
             }
         }

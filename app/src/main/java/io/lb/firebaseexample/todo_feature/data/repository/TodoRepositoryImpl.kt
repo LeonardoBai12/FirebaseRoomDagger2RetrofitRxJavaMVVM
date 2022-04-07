@@ -38,9 +38,9 @@ class TodoRepositoryImpl(
         return dataSource.insertTodo(id, todo)
     }
 
-    override suspend fun getTodos(): Flow<List<Todo>> {
-        updateDatabase()
+    override suspend fun getTodos(): Flow<List<Todo>?> {
         return flow {
+            updateDatabase()
             emit(todoDAO.getAllRecords())
         }
     }

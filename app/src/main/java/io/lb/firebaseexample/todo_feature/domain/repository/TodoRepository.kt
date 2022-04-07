@@ -13,7 +13,7 @@ interface TodoRepository {
         date: String?,
         deadline: String?
     ): Task<Void>
-    suspend fun getTodos(): Flow<List<Todo>>
+    suspend fun getTodos(): Flow<List<Todo>?>
     fun logout()
     suspend fun getUser(): User?
     fun updateTodo(id: Int, todo: Todo): Task<Void>

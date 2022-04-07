@@ -93,18 +93,16 @@ class MainTodosFragment : DaggerFragment() {
         }
     }
 
-    private fun updateTodos(todos: List<Todo>) {
-        todoAdapter.updateList(todos)
-
-        Handler(Looper.getMainLooper()).postDelayed({
+    private fun updateTodos(todos: List<Todo>?) {
+        todos?.let {
+            todoAdapter.updateList(it)
             disableShimmer()
-        }, 1500)
+        }
     }
 
     private fun setupTodoSearchView() {
         setupDebounceSearchTil(binding.svTodo).subscribe {
             todoAdapter.getFilter().filter(it)
-            disableShimmer()
         }
     }
 
