@@ -16,4 +16,5 @@ interface TodoRepository {
     suspend fun getTodos(): Flow<List<Todo>>
     fun logout()
     suspend fun getUser(): User?
+    fun updateTodo(id: Int, todo: Todo): Task<Void>
 }

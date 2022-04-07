@@ -45,6 +45,7 @@ class TodoModule {
     fun providesTodoUseCases(repository: TodoRepository): TodoUseCases {
         return TodoUseCases(
             getTodosUseCase = GetTodosUseCase(repository),
+            updateTodo = UpdateTodo(repository),
             logoutUseCase = LogoutUseCase(repository),
             saveTodoUseCase = SaveTodoUseCase(repository),
             getUserUseCase = GetUserUseCase(repository),
