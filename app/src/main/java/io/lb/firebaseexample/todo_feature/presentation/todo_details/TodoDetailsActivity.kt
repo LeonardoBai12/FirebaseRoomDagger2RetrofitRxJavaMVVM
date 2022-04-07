@@ -2,6 +2,7 @@ package io.lb.firebaseexample.todo_feature.presentation.todo_details
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.widget.doAfterTextChanged
@@ -60,7 +61,23 @@ class TodoDetailsActivity : DaggerAppCompatActivity() {
             binding.included.tilTodoDescription.editText?.setText(it.description)
             binding.included.tilTodoDate.editText?.setText(it.date)
             binding.included.tilTodoDeadline.editText?.setText(it.deadline)
+            disableIfCompleted(it.isCompleted)
         }
+    }
+
+    private fun disableIfCompleted(completed: Boolean) {
+        binding.included.tilTodoTitle.editText?.isEnabled = !completed
+        binding.included.tilTodoDescription.editText?.isEnabled = !completed
+        binding.included.tilTodoDate.editText?.isEnabled = !completed
+        binding.included.tilTodoDeadline.editText?.isEnabled = !completed
+        binding.included.chkWithoutDeadline.isEnabled = !completed
+
+        binding.included.btTodoFinish.visibility =
+            if (completed) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
     }
 
     private fun setupTitleTextChanged() {
