@@ -51,9 +51,14 @@ class MainActivity : DaggerAppCompatActivity() {
         setupViewModel()
         setupUiEvents()
         setupBindings()
+        setupDrawerActions()
 
+        setupNavController()
+    }
+
+    private fun setupDrawerActions() {
         binding.navView.setNavigationItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.action_user_settings -> Toast.makeText(
                     this,
                     "test",
@@ -62,8 +67,6 @@ class MainActivity : DaggerAppCompatActivity() {
             }
             true
         }
-
-        setupNavController()
     }
 
     private fun setupResultLauncher() {
