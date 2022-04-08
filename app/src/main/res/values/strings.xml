@@ -20,4 +20,7 @@
     <string name="search">Pesquisar</string>
     <string name="show_greetings">Apresentar saudações</string>
     <string name="allow_restart_todo">Permitir reiniciar tarefa</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="user_settings">Usuário</string>
 </resources>

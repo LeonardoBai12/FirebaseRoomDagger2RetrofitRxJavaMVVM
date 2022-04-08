@@ -8,16 +8,14 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import dagger.android.support.DaggerAppCompatActivity
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityMainBinding
-import io.lb.firebaseexample.settings_feature.presentation.MainSettingsFragment
 import io.lb.firebaseexample.settings_feature.presentation.SettingsViewModel
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.user_feature.presentation.login.LoginActivity
@@ -53,6 +51,17 @@ class MainActivity : DaggerAppCompatActivity() {
         setupViewModel()
         setupUiEvents()
         setupBindings()
+
+        binding.navView.setNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.action_user_settings -> Toast.makeText(
+                    this,
+                    "test",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            true
+        }
 
         setupNavController()
     }
@@ -120,7 +129,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
     private fun setupNavController() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
+        appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
