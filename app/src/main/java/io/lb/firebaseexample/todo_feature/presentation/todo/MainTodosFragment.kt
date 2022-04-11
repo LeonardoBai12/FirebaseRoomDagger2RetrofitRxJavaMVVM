@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,8 +18,9 @@ class MainTodosFragment : Fragment() {
     private var _binding: FragmentTodosBinding? = null
     private val binding get() = _binding!!
     private val todoAdapter = MainTodoAdapter()
-    private val viewModel: MainTodosViewModel by viewModels()
-    private val settingsViewModel: SettingsViewModel by viewModels()
+
+    private lateinit var viewModel: MainTodosViewModel
+    private lateinit var settingsViewModel: SettingsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,12 +73,16 @@ class MainTodosFragment : Fragment() {
     }
 
     private fun setupViewModel() {
+        viewModel = ViewModelProvider(requireActivity())[MainTodosViewModel::class.java]
+
         viewModel.todos.observe(viewLifecycleOwner) {
             updateTodos(it)
         }
         viewModel.user.observe(viewLifecycleOwner) {
             binding.tvUser.text = "Olá, ${it?.name}!"
         }
+
+        settingsViewModel = ViewModelProvider(requireActivity())[SettingsViewModel::class.java]
 
         settingsViewModel.showGreetings.observe(viewLifecycleOwner) {
             binding.tvUser.visibility = if (it != false) {
