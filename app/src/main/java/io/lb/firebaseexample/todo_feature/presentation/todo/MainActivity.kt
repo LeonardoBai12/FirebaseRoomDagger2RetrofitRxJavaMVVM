@@ -138,6 +138,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            settingsViewModel.getAllowRestartTodo()
             menu.getItem(0).isVisible =
                 destination.label != getString(R.string.action_settings)
         }
