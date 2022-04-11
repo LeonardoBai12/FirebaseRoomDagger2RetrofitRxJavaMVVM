@@ -4,6 +4,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import io.lb.firebaseexample.db.AppDatabase
 import io.lb.firebaseexample.user_feature.data.data_source.UserDAO
 import io.lb.firebaseexample.user_feature.data.data_source.UserDataSource
@@ -12,7 +14,8 @@ import io.lb.firebaseexample.user_feature.domain.repository.UserRepository
 import io.lb.firebaseexample.user_feature.domain.use_case.*
 
 @Module
-class UserModule {
+@InstallIn(ViewModelComponent::class)
+object UserModule {
     @Provides
     fun providesTodosDataSource(
         database: FirebaseDatabase,

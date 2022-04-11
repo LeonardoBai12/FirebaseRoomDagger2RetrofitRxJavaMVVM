@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.ViewModelProvider
-import dagger.android.support.DaggerAppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.lb.firebaseexample.databinding.ActivityTodoDetailsBinding
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.util.datePickerDialog
@@ -17,19 +17,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class TodoDetailsActivity : DaggerAppCompatActivity() {
+@AndroidEntryPoint
+class TodoDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTodoDetailsBinding
     private var todo: Todo? = null
     private var id = 0
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel: TodoDetailsViewModel by viewModels {
-        viewModelFactory
-    }
+    private val viewModel: TodoDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

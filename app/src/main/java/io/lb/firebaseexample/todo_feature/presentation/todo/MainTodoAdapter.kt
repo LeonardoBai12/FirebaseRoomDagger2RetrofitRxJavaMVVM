@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.internal.managers.FragmentComponentManager
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.settings_feature.presentation.SettingsViewModel
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
@@ -25,12 +26,9 @@ class MainTodoAdapter : RecyclerView.Adapter<MainTodoAdapter.ViewHolder>() {
     ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.row_todo, parent, false)
-        viewModel = ViewModelProvider(
-            parent.context as AppCompatActivity
-        )[MainTodosViewModel::class.java]
-        settingsViewModel = ViewModelProvider(
-            parent.context as AppCompatActivity
-        )[SettingsViewModel::class.java]
+        val activity = FragmentComponentManager.findActivity(view.context) as AppCompatActivity
+        viewModel = ViewModelProvider(activity)[MainTodosViewModel::class.java]
+        settingsViewModel = ViewModelProvider(activity)[SettingsViewModel::class.java]
         return ViewHolder(view)
     }
 

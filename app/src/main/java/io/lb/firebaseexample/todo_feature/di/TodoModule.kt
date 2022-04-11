@@ -4,6 +4,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import io.lb.firebaseexample.db.AppDatabase
 import io.lb.firebaseexample.todo_feature.data.data_source.TodoDAO
 import io.lb.firebaseexample.todo_feature.data.data_source.TodoDataSource
@@ -13,7 +15,8 @@ import io.lb.firebaseexample.todo_feature.domain.use_case.*
 import io.lb.firebaseexample.user_feature.data.data_source.UserDAO
 
 @Module
-class TodoModule {
+@InstallIn(ViewModelComponent::class)
+object TodoModule {
     @Provides
     fun providesTodoDataSource(
         database: FirebaseDatabase,
@@ -25,11 +28,6 @@ class TodoModule {
     @Provides
     fun getTodoDao(appDataBase: AppDatabase): TodoDAO {
         return appDataBase.todoDao
-    }
-
-    @Provides
-    fun getUserDao(appDataBase: AppDatabase): UserDAO {
-        return appDataBase.userDao
     }
 
     @Provides

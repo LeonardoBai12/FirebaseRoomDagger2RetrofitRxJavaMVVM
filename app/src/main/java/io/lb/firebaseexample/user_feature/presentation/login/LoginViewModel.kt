@@ -1,9 +1,12 @@
 package io.lb.firebaseexample.user_feature.presentation.login
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.lb.firebaseexample.user_feature.domain.use_case.UserUseCases
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,10 +15,11 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class LoginViewModel @Inject constructor(
-    app: Application,
+    @ApplicationContext context: Context,
     private val useCases: UserUseCases
-) : AndroidViewModel(app) {
+) : AndroidViewModel(context as Application) {
     private var typedEmail: String? = null
     private var typedPassword: String? = null
 

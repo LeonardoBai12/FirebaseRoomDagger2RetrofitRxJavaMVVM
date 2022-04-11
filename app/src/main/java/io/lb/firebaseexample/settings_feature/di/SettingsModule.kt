@@ -2,6 +2,8 @@ package io.lb.firebaseexample.settings_feature.di
 
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import io.lb.firebaseexample.settings_feature.data.data_source.SettingsDataSource
 import io.lb.firebaseexample.settings_feature.data.repository.SettingsRepositoryImpl
 import io.lb.firebaseexample.settings_feature.domain.repository.SettingsRepository
@@ -10,7 +12,8 @@ import io.lb.firebaseexample.settings_feature.domain.use_case.SaveSettingAccordi
 import io.lb.firebaseexample.settings_feature.domain.use_case.SettingsUseCases
 
 @Module
-class SettingsModule {
+@InstallIn(ViewModelComponent::class)
+object SettingsModule {
     @Provides
     fun providesSettingsRepository(
         dataSource: SettingsDataSource,

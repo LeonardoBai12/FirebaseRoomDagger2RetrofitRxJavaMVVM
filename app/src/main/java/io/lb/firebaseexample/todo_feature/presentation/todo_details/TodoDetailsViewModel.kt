@@ -1,8 +1,11 @@
 package io.lb.firebaseexample.todo_feature.presentation.todo_details
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.lb.firebaseexample.todo_feature.domain.use_case.TodoUseCases
 import io.lb.firebaseexample.user_feature.presentation.login.LoginViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -10,10 +13,11 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class TodoDetailsViewModel @Inject constructor(
-    app: Application,
+    @ApplicationContext context: Context,
     private val useCases: TodoUseCases
-): AndroidViewModel(app) {
+): AndroidViewModel(context as Application) {
     private var typedTitle: String? = null
     private var typedDescription: String? = null
     private var typedDate: String? = null

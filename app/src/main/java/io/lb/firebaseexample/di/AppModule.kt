@@ -9,12 +9,16 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.internal.managers.ApplicationComponentManager
+import dagger.hilt.components.SingletonComponent
 import io.lb.firebaseexample.db.AppDatabase
 import io.lb.firebaseexample.settings_feature.data.data_source.SettingsDataSource
 import javax.inject.Singleton
 
 @Module
-class AppModule {
+@InstallIn(SingletonComponent::class)
+object AppModule {
     @Provides
     @Singleton
     fun provideAppDatabase(app: Application): AppDatabase {

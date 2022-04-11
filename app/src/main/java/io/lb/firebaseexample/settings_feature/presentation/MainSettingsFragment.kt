@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.ViewModelProvider
-import dagger.android.support.DaggerFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import io.lb.firebaseexample.databinding.FragmentSettingsBinding
 
-class MainSettingsFragment : DaggerFragment() {
+@AndroidEntryPoint
+class MainSettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var viewModel: SettingsViewModel
+    private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,14 +26,9 @@ class MainSettingsFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupViewModel()
         setupInitialValues()
         setupObservers()
         setupListeners()
-    }
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProvider(requireActivity())[SettingsViewModel::class.java]
     }
 
     private fun setupObservers() {
