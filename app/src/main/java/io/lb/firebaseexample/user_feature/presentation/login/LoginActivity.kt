@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
-import dagger.android.support.DaggerAppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityLoginBinding
 import io.lb.firebaseexample.todo_feature.presentation.todo.MainActivity
@@ -15,17 +15,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class LoginActivity : DaggerAppCompatActivity() {
+@AndroidEntryPoint
+class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel: LoginViewModel by viewModels {
-        viewModelFactory
-    }
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,9 +1,12 @@
 package io.lb.firebaseexample.todo_feature.presentation.todo
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.todo_feature.domain.use_case.TodoUseCases
 import io.lb.firebaseexample.user_feature.domain.model.User
@@ -16,10 +19,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class MainTodosViewModel @Inject constructor(
-    app: Application,
+    @ApplicationContext context: Context,
     private val useCases: TodoUseCases
-): AndroidViewModel(app) {
+): AndroidViewModel(context as Application) {
     val todos = MutableLiveData<List<Todo>?>()
     val user = MutableLiveData<User?>()
 

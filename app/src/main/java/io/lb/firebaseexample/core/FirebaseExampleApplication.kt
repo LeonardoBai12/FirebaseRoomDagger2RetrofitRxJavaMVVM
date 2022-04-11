@@ -1,17 +1,17 @@
 package io.lb.firebaseexample.core
 
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 import io.lb.firebaseexample.BuildConfig
-import io.lb.firebaseexample.di.DaggerAppComponent
 import timber.log.Timber
 
-class FirebaseExampleApplication : DaggerApplication() {
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+@HiltAndroidApp
+class FirebaseExampleApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-
-        return DaggerAppComponent.builder().application(this).build()
     }
 }
