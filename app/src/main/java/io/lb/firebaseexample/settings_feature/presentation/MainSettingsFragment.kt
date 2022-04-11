@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 import io.lb.firebaseexample.databinding.FragmentSettingsBinding
 
@@ -13,7 +13,7 @@ import io.lb.firebaseexample.databinding.FragmentSettingsBinding
 class MainSettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: SettingsViewModel by viewModels()
+    private lateinit var viewModel: SettingsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,9 +26,14 @@ class MainSettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupViewModel()
         setupInitialValues()
         setupObservers()
         setupListeners()
+    }
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProvider(requireActivity())[SettingsViewModel::class.java]
     }
 
     private fun setupObservers() {
