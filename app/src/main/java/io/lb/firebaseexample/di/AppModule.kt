@@ -10,15 +10,33 @@ import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.internal.managers.ApplicationComponentManager
 import dagger.hilt.components.SingletonComponent
 import io.lb.firebaseexample.db.AppDatabase
+import io.lb.firebaseexample.paradasNotifica.data.dataSource.NotificationService
 import io.lb.firebaseexample.settings_feature.data.data_source.SettingsDataSource
+import io.lb.firebaseexample.util.GeneralConstants
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+    @Provides
+    @Singleton
+    fun providesRetrofitInstance(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(GeneralConstants.FIREBASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun providesNotificationService(retrofit: Retrofit): NotificationService {
+        return retrofit.create(NotificationService::class.java)
+    }
+
     @Provides
     @Singleton
     fun provideAppDatabase(app: Application): AppDatabase {
