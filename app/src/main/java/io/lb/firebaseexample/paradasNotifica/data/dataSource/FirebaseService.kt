@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.paradasNotifica
+package io.lb.firebaseexample.paradasNotifica.data.dataSource
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -30,13 +30,15 @@ private const val CHANNEL_ID = "firebase_example_channel"
 class FirebaseService: FirebaseMessagingService() {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "notification_token")
     private val dataStoreKey = stringPreferencesKey("token")
+    var token: String? = null
 
-    override fun onNewToken(token: String) {
-        super.onNewToken(token)
+    override fun onNewToken(newToken: String) {
+        super.onNewToken(newToken)
 
         CoroutineScope(Dispatchers.IO).launch {
             dataStore.edit {
-                it[dataStoreKey] = token
+                it[dataStoreKey] = newToken
+                token = newToken
             }
         }
     }

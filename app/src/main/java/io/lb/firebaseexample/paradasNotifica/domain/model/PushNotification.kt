@@ -4,5 +4,5 @@ import io.lb.firebaseexample.paradasNotifica.domain.model.NotificationData
 
 data class PushNotification(
     val data: NotificationData,
-    val to: String,
+    val to: String? = null,
 )
