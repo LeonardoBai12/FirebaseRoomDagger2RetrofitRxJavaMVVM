@@ -9,6 +9,7 @@ import io.lb.firebaseexample.notification_feature.data.data_source.FirebaseNotif
 import io.lb.firebaseexample.notification_feature.data.data_source.NotificationService
 import io.lb.firebaseexample.notification_feature.data.repository.NotificationsRepositoryImpl
 import io.lb.firebaseexample.notification_feature.domain.repository.NotificationsRepository
+import io.lb.firebaseexample.notification_feature.domain.use_case.InitializeFireBaseMessagingUseCase
 import io.lb.firebaseexample.notification_feature.domain.use_case.NotificationUseCases
 import io.lb.firebaseexample.notification_feature.domain.use_case.SendPushNotificationUseCase
 
@@ -31,7 +32,8 @@ object NotificationModule {
     @Provides
     fun providesNotificationUseCases(repository: NotificationsRepository): NotificationUseCases {
         return NotificationUseCases(
-            sendPushNotificationUseCase = SendPushNotificationUseCase(repository)
+            sendPushNotificationUseCase = SendPushNotificationUseCase(repository),
+            initializeFireBaseMessagingUseCase = InitializeFireBaseMessagingUseCase(repository)
         )
     }
 }

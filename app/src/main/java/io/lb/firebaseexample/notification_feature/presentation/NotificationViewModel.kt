@@ -25,6 +25,9 @@ class NotificationViewModel @Inject constructor(
                         event.topic,
                     )
                 }
+                is NotificationEvent.OnInitializeMessaging -> {
+                    useCases.initializeFireBaseMessagingUseCase(event.topic)
+                }
             }
         }
     }

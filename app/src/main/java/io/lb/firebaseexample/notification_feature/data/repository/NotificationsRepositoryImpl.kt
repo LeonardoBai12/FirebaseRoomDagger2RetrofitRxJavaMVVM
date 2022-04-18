@@ -24,9 +24,10 @@ class NotificationsRepositoryImpl(
         }
     }
 
-    override suspend fun sendNotification(title: String, message: String) {
+    override suspend fun sendNotification(title: String, message: String, topic: String) {
         PushNotification(
-            NotificationData(title, message)
+            NotificationData(title, message),
+            topic
         ).also {
             sendNotification(it)
         }
@@ -35,6 +36,7 @@ class NotificationsRepositoryImpl(
     private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
         try {
             val response = notificationService.postNotification(notification)
+
             if(response.isSuccessful) {
                 Timber.d("Response: ${Gson().toJson(response)}")
             } else {

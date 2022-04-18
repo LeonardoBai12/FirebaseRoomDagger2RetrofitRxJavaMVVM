@@ -6,4 +6,7 @@ sealed class NotificationEvent {
         val message: String,
         val topic: String,
     ): NotificationEvent()
+    data class OnInitializeMessaging(
+        val topic: String
+    ): NotificationEvent()
 }

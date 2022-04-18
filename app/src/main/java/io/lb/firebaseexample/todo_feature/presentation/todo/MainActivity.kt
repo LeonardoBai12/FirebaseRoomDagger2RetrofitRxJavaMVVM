@@ -16,10 +16,13 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import io.lb.firebaseexample.R
 import io.lb.firebaseexample.databinding.ActivityMainBinding
+import io.lb.firebaseexample.notification_feature.presentation.NotificationEvent
+import io.lb.firebaseexample.notification_feature.presentation.NotificationViewModel
 import io.lb.firebaseexample.settings_feature.presentation.SettingsViewModel
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
 import io.lb.firebaseexample.user_feature.presentation.login.LoginActivity
 import io.lb.firebaseexample.todo_feature.presentation.todo_details.TodoDetailsActivity
+import io.lb.firebaseexample.util.GeneralConstants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private var id = 0
     private val viewModel: MainTodosViewModel by viewModels()
     private val settingsViewModel: SettingsViewModel by viewModels()
+    private val notificationViewModel: NotificationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +81,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         settingsViewModel.getAllowRestartTodo()
+
+        notificationViewModel.onEvent(
+            NotificationEvent.OnInitializeMessaging(GeneralConstants.TOPIC_DEADLINE)
+        )
     }
 
     private fun setupBindings() {

@@ -9,8 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import io.lb.firebaseexample.databinding.FragmentTodosBinding
+import io.lb.firebaseexample.notification_feature.presentation.NotificationEvent
+import io.lb.firebaseexample.notification_feature.presentation.NotificationViewModel
 import io.lb.firebaseexample.settings_feature.presentation.SettingsViewModel
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
+import io.lb.firebaseexample.util.GeneralConstants
 import io.lb.firebaseexample.util.setupDebounceSearchTil
 
 @AndroidEntryPoint
@@ -21,6 +24,7 @@ class MainTodosFragment : Fragment() {
 
     private lateinit var viewModel: MainTodosViewModel
     private lateinit var settingsViewModel: SettingsViewModel
+    private lateinit var notificationViewModel: NotificationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,6 +86,9 @@ class MainTodosFragment : Fragment() {
             binding.tvUser.text = "Olá, ${it?.name}!"
         }
 
+        notificationViewModel = ViewModelProvider(requireActivity())[
+                NotificationViewModel::class.java
+        ]
         settingsViewModel = ViewModelProvider(requireActivity())[SettingsViewModel::class.java]
 
         settingsViewModel.showGreetings.observe(viewLifecycleOwner) {
