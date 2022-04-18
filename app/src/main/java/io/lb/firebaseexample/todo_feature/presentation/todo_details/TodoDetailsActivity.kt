@@ -170,6 +170,8 @@ class TodoDetailsActivity : AppCompatActivity() {
     private fun onDeadlineDateSet(): DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { _, year, month, day ->
             val date = dateToString(day, month, year)
+
+
             binding.included.tilTodoDeadline.editText?.setText(
                 date
             )

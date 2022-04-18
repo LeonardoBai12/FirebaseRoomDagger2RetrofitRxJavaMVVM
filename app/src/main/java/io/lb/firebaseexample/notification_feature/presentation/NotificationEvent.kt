@@ -9,4 +9,11 @@ sealed class NotificationEvent {
     data class OnInitializeMessaging(
         val topic: String
     ): NotificationEvent()
+    data class OnScheduleNotification(
+        val title: String,
+        val message: String,
+        val day: Int,
+        val month: Int,
+        val year: Int,
+    ): NotificationEvent()
 }

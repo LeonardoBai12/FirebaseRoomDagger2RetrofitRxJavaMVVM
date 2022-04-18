@@ -20,7 +20,7 @@
         android:theme="@style/Theme.FirebaseExample"
         tools:targetApi="n">
         <service
-            android:name=".notification_feature.data.data_source.FirebaseNotificationService"
+            android:name=".notification_feature.data.data_source.NotificationDataSource"
             android:permission="com.google.android.c2dm.permission.SEND"
             android:exported="true">
             <intent-filter>

@@ -14,8 +14,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.lb.firebaseexample.db.AppDatabase
-import io.lb.firebaseexample.notification_feature.data.data_source.FirebaseNotificationService
+import io.lb.firebaseexample.notification_feature.data.data_source.NotificationDataSource
 import io.lb.firebaseexample.notification_feature.data.data_source.NotificationService
+import io.lb.firebaseexample.notification_feature.data.data_source.ScheduledNotificationDataSource
 import io.lb.firebaseexample.settings_feature.data.data_source.SettingsDataSource
 import io.lb.firebaseexample.util.GeneralConstants
 import retrofit2.Retrofit
@@ -42,8 +43,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesFirebaseNotificationService(): FirebaseNotificationService {
-        return FirebaseNotificationService()
+    fun providesFirebaseNotificationService(): NotificationDataSource {
+        return NotificationDataSource()
     }
 
     @Provides
@@ -79,4 +80,11 @@ object AppModule {
     fun providesSettingsDataSource(context: Application): SettingsDataSource {
         return SettingsDataSource(context)
     }
+
+    @Provides
+    @Singleton
+    fun providesScheduledNotificationDataSource(): ScheduledNotificationDataSource {
+        return ScheduledNotificationDataSource()
+    }
+
 }

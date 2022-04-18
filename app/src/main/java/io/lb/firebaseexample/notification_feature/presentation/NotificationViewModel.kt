@@ -19,7 +19,7 @@ class NotificationViewModel @Inject constructor(
         viewModelScope.launch {
             when (event) {
                 is NotificationEvent.OnNotificationSent -> {
-                    useCases.sendPushNotificationUseCase(
+                    useCases.sendPushNotificationToUseCase(
                         event.title,
                         event.message,
                         event.topic,
@@ -27,6 +27,16 @@ class NotificationViewModel @Inject constructor(
                 }
                 is NotificationEvent.OnInitializeMessaging -> {
                     useCases.initializeFireBaseMessagingUseCase(event.topic)
+                }
+                is NotificationEvent.OnScheduleNotification -> {
+                    useCases.sendScheduledNotificationUseCase(
+                        getApplication(),
+                        event.title,
+                        event.message,
+                        event.day,
+                        event.month,
+                        event.year,
+                    )
                 }
             }
         }
