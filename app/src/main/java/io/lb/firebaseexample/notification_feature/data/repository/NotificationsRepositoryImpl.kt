@@ -1,13 +1,12 @@
-package io.lb.firebaseexample.paradasNotifica.data.repository
+package io.lb.firebaseexample.notification_feature.data.repository
 
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
-import io.lb.firebaseexample.paradasNotifica.data.dataSource.FirebaseService
-import io.lb.firebaseexample.paradasNotifica.data.dataSource.NotificationService
-import io.lb.firebaseexample.paradasNotifica.domain.model.NotificationData
-import io.lb.firebaseexample.paradasNotifica.domain.model.PushNotification
-import io.lb.firebaseexample.paradasNotifica.domain.repository.NotificationsRepository
-import io.lb.firebaseexample.util.GeneralConstants
+import io.lb.firebaseexample.notification_feature.data.data_source.FirebaseNotificationService
+import io.lb.firebaseexample.notification_feature.data.data_source.NotificationService
+import io.lb.firebaseexample.notification_feature.domain.model.NotificationData
+import io.lb.firebaseexample.notification_feature.domain.model.PushNotification
+import io.lb.firebaseexample.notification_feature.domain.repository.NotificationsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,16 +15,16 @@ import timber.log.Timber
 class NotificationsRepositoryImpl(
     private val notificationService: NotificationService,
     private val firebaseMessaging: FirebaseMessaging,
-    private val firebaseService: FirebaseService,
+    private val firebaseService: FirebaseNotificationService,
 ): NotificationsRepository{
-    override fun initializeFirebaseMessaging() {
-        firebaseMessaging.subscribeToTopic(GeneralConstants.TOPIC_DEADLINE)
+    override fun initializeFirebaseMessaging(topic: String) {
+        firebaseMessaging.subscribeToTopic(topic)
         firebaseMessaging.token.addOnCompleteListener {
             firebaseService.token = it.result
         }
     }
 
-    override suspend fun sendNotification(title: String, message: String, topic: String) {
+    override suspend fun sendNotification(title: String, message: String) {
         PushNotification(
             NotificationData(title, message)
         ).also {

@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.paradasNotifica.domain.model
+package io.lb.firebaseexample.notification_feature.domain.model
 
 data class NotificationData(
     val title: String,

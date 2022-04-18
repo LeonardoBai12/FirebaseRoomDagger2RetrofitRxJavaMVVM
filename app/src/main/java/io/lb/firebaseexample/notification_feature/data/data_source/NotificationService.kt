@@ -1,6 +1,6 @@
-package io.lb.firebaseexample.paradasNotifica.data.dataSource
+package io.lb.firebaseexample.notification_feature.data.data_source
 
-import io.lb.firebaseexample.paradasNotifica.domain.model.PushNotification
+import io.lb.firebaseexample.notification_feature.domain.model.PushNotification
 import io.lb.firebaseexample.util.GeneralConstants.CONTENT_TYPE
 import io.lb.firebaseexample.util.GeneralConstants.SERVER_KEY
 import okhttp3.ResponseBody

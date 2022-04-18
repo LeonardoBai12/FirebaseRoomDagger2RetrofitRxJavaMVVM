@@ -1,4 +1,4 @@
-package io.lb.firebaseexample.paradasNotifica.data.dataSource
+package io.lb.firebaseexample.notification_feature.data.data_source
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -27,7 +27,7 @@ import kotlin.random.Random
 
 private const val CHANNEL_ID = "firebase_example_channel"
 
-class FirebaseService: FirebaseMessagingService() {
+class FirebaseNotificationService: FirebaseMessagingService() {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "notification_token")
     private val dataStoreKey = stringPreferencesKey("token")
     var token: String? = null

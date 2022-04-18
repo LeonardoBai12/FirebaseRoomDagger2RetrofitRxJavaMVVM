@@ -14,7 +14,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.lb.firebaseexample.db.AppDatabase
-import io.lb.firebaseexample.paradasNotifica.data.dataSource.NotificationService
+import io.lb.firebaseexample.notification_feature.data.data_source.FirebaseNotificationService
+import io.lb.firebaseexample.notification_feature.data.data_source.NotificationService
 import io.lb.firebaseexample.settings_feature.data.data_source.SettingsDataSource
 import io.lb.firebaseexample.util.GeneralConstants
 import retrofit2.Retrofit
@@ -37,6 +38,12 @@ object AppModule {
     @Singleton
     fun providesNotificationService(retrofit: Retrofit): NotificationService {
         return retrofit.create(NotificationService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesFirebaseNotificationService(): FirebaseNotificationService {
+        return FirebaseNotificationService()
     }
 
     @Provides

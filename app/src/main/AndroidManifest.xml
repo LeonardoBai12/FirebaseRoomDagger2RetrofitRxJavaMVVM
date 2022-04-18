@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirebaseExample">
         <service
-            android:name=".paradasNotifica.FirebaseService"
+            android:name=".notification_feature.FirebaseService"
             android:permission="com.google.android.c2dm.permission.SEND"
             android:exported="true">
             <intent-filter>
