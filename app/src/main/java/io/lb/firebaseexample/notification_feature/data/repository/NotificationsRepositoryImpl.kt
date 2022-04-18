@@ -1,7 +1,6 @@
 package io.lb.firebaseexample.notification_feature.data.repository
 
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.Gson
 import io.lb.firebaseexample.notification_feature.data.data_source.FirebaseNotificationService
 import io.lb.firebaseexample.notification_feature.data.data_source.NotificationService
 import io.lb.firebaseexample.notification_feature.domain.model.NotificationData
@@ -33,13 +32,10 @@ class NotificationsRepositoryImpl(
         }
     }
 
-    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+    private suspend fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
         try {
             val response = notificationService.postNotification(notification)
-
-            if(response.isSuccessful) {
-                Timber.d("Response: ${Gson().toJson(response)}")
-            } else {
+            if(!response.isSuccessful) {
                 Timber.e(response.errorBody().toString())
             }
         } catch(e: Exception) {
