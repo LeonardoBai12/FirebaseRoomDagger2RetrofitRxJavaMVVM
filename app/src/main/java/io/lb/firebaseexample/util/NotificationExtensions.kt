@@ -55,10 +55,9 @@ private fun createNotificationChannel(
     notificationManager: NotificationManager,
     channelId: String
 ) {
-    val channelName = "firebaseExampleChannel"
     val channel = NotificationChannel(
         channelId,
-        channelName,
+        channelId,
         NotificationManager.IMPORTANCE_HIGH
     ).apply {
         description = "A Firebase TODO list"

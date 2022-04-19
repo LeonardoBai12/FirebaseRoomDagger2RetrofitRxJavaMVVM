@@ -29,6 +29,10 @@
             </intent-filter>
         </service>
 
+        <receiver
+            android:name=".notification_feature.data.data_source.NotificationBroadcast"
+            android:enabled="true"/>
+
         <activity
             android:name="io.lb.firebaseexample.splash_feature.presentation.SplashActivity"
             android:exported="true"

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
+import io.lb.firebaseexample.util.buildNotification
 import io.lb.firebaseexample.util.defaultNotification
 import kotlin.random.Random
 
@@ -18,14 +19,15 @@ class NotificationBroadcast : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val title = intent.getStringExtra("titleExtra") ?: ""
         val message = intent.getStringExtra("messageExtra") ?: ""
-        val notification = defaultNotification(
+        val id = intent.getIntExtra("notificationId", 0)
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notification = notificationManager.buildNotification(
             context,
             CHANNEL_ID,
             title,
             message
         )
 
-        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.notify(Random.nextInt(), notification)
+        notificationManager.notify(id, notification)
     }
 }

@@ -4,7 +4,7 @@ import android.content.Context
 
 interface NotificationsRepository {
     fun initializeFirebaseMessaging(topic: String)
-    suspend fun sendNotificationTo(title: String, message: String, topic: String?)
+    suspend fun sendNotificationTo(title: String, message: String, to: String?)
     fun sendScheduledNotification(
         context: Context,
         title: String,

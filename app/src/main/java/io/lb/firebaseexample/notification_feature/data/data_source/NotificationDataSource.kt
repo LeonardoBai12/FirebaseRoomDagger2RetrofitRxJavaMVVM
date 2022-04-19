@@ -1,10 +1,7 @@
 package io.lb.firebaseexample.notification_feature.data.data_source
 
-import android.app.AlarmManager
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.datastore.core.DataStore
@@ -18,7 +15,6 @@ import io.lb.firebaseexample.util.buildNotification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
 import kotlin.random.Random
 
 private const val CHANNEL_ID = "firebase_example_channel"
