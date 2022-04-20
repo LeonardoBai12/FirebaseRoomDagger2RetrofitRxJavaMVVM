@@ -155,23 +155,26 @@ class TodoDetailsActivity : AppCompatActivity() {
 
     private fun setupFinishButton() {
         binding.included.btTodoFinish.setOnClickListener {
-            viewModel.onEvent(TodoDetailsEvent.PressedFinish(id))
-
             val title = binding.included.tilTodoTitle.editText?.text.toString()
             val message = binding.included.tilTodoDescription.editText?.text.toString()
-            val date = dateFromString(
-                binding.included.tilTodoDeadline.editText?.text.toString()
-            )
+            val dateText = binding.included.tilTodoDeadline.editText?.text.toString()
 
-            notificationViewModel.onEvent(
-                NotificationEvent.OnScheduleNotification(
-                    title,
-                    message,
-                    date.get(Calendar.DAY_OF_MONTH),
-                    date.get(Calendar.MONTH),
-                    date.get(Calendar.YEAR)
+            dateText.takeIf {
+                it.isNotEmpty()
+            }?.let {
+                val date = dateFromString(it)
+                notificationViewModel.onEvent(
+                    NotificationEvent.OnScheduleNotification(
+                        title,
+                        message,
+                        date.get(Calendar.DAY_OF_MONTH),
+                        date.get(Calendar.MONTH),
+                        date.get(Calendar.YEAR)
+                    )
                 )
-            )
+            }
+
+            viewModel.onEvent(TodoDetailsEvent.PressedFinish(id))
         }
     }
 
