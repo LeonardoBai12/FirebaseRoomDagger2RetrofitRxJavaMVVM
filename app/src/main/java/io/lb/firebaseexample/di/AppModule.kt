@@ -83,8 +83,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesScheduledNotificationDataSource(): ScheduledNotificationDataSource {
-        return ScheduledNotificationDataSource()
+    fun providesScheduledNotificationDataSource(context: Application): ScheduledNotificationDataSource {
+        return ScheduledNotificationDataSource(context)
     }
 
 }

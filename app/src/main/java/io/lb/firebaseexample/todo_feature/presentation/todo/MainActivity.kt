@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
     private var id = 0
     private val viewModel: MainTodosViewModel by viewModels()
     private val settingsViewModel: SettingsViewModel by viewModels()
-    private val notificationViewModel: NotificationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,10 +80,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         settingsViewModel.getAllowRestartTodo()
-
-        notificationViewModel.onEvent(
-            NotificationEvent.OnInitializeMessaging(GeneralConstants.TOPIC_DEADLINE)
-        )
     }
 
     private fun setupBindings() {
