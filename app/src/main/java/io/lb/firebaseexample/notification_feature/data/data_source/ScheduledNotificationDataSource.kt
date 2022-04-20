@@ -20,12 +20,10 @@ class ScheduledNotificationDataSource(
         month: Int,
         year: Int,
     ) {
-        val morning = getTime(day, month, year, 9)
-        setExactTimeNotification(title, message, morning)
-        val afternoon = getTime(day, month, year, 13)
-        setExactTimeNotification(title, message, afternoon)
-        val evening = getTime(day, month, year, 19)
-        setExactTimeNotification(title, message, evening)
+        listOf(9, 13, 19).forEach {
+            if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < it)
+                setExactTimeNotification(title, message, getTime(day, month, year, it))
+        }
     }
 
     private fun setExactTimeNotification(

@@ -46,7 +46,7 @@ class NotificationsRepositoryImpl(
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             scheduledNotificationDataSource.scheduleNotification(
-                context, title, message, day, month, year
+                title, message, day, month, year
             )
         }
     }

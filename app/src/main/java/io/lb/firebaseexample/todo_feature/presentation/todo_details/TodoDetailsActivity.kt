@@ -9,7 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import io.lb.firebaseexample.databinding.ActivityTodoDetailsBinding
+import io.lb.firebaseexample.notification_feature.presentation.NotificationEvent
+import io.lb.firebaseexample.notification_feature.presentation.NotificationViewModel
 import io.lb.firebaseexample.todo_feature.domain.model.Todo
+import io.lb.firebaseexample.util.dateFromString
 import io.lb.firebaseexample.util.datePickerDialog
 import io.lb.firebaseexample.util.dateToString
 import io.lb.firebaseexample.util.setupDebounceEditText
@@ -17,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 class TodoDetailsActivity : AppCompatActivity() {
@@ -24,6 +28,7 @@ class TodoDetailsActivity : AppCompatActivity() {
     private var todo: Todo? = null
     private var id = 0
     private val viewModel: TodoDetailsViewModel by viewModels()
+    private val notificationViewModel: NotificationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,6 +156,22 @@ class TodoDetailsActivity : AppCompatActivity() {
     private fun setupFinishButton() {
         binding.included.btTodoFinish.setOnClickListener {
             viewModel.onEvent(TodoDetailsEvent.PressedFinish(id))
+
+            val title = binding.included.tilTodoTitle.editText?.text.toString()
+            val message = binding.included.tilTodoDescription.editText?.text.toString()
+            val date = dateFromString(
+                binding.included.tilTodoDeadline.editText?.text.toString()
+            )
+
+            notificationViewModel.onEvent(
+                NotificationEvent.OnScheduleNotification(
+                    title,
+                    message,
+                    date.get(Calendar.DAY_OF_MONTH),
+                    date.get(Calendar.MONTH),
+                    date.get(Calendar.YEAR)
+                )
+            )
         }
     }
 
@@ -170,7 +191,6 @@ class TodoDetailsActivity : AppCompatActivity() {
     private fun onDeadlineDateSet(): DatePickerDialog.OnDateSetListener {
         return DatePickerDialog.OnDateSetListener { _, year, month, day ->
             val date = dateToString(day, month, year)
-
 
             binding.included.tilTodoDeadline.editText?.setText(
                 date
