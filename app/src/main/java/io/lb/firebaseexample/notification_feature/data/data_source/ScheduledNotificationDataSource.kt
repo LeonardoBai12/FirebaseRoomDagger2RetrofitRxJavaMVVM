@@ -20,9 +20,13 @@ class ScheduledNotificationDataSource(
         month: Int,
         year: Int,
     ) {
+        val calendar = Calendar.getInstance()
+
         listOf(9, 13, 19).forEach {
-            if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < it)
+            if (calendar.get(Calendar.DAY_OF_MONTH) != day &&
+                calendar.get(Calendar.HOUR_OF_DAY) < it) {
                 setExactTimeNotification(title, message, getTime(day, month, year, it))
+            }
         }
     }
 
