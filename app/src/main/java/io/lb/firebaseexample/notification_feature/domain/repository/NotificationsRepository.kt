@@ -8,7 +8,6 @@ interface NotificationsRepository {
     fun sendScheduledNotification(
         context: Context,
         title: String,
-        message: String,
         day: Int,
         month: Int,
         year: Int,

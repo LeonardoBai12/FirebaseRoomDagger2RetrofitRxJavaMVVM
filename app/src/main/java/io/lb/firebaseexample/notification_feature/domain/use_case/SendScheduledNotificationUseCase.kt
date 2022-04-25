@@ -9,11 +9,10 @@ class SendScheduledNotificationUseCase(
     operator fun invoke(
         context: Context,
         title: String,
-        message: String,
         day: Int,
         month: Int,
         year: Int,
     ) {
-        repository.sendScheduledNotification(context, title, message, day, month, year)
+        repository.sendScheduledNotification(context, title, day, month, year)
     }
 }

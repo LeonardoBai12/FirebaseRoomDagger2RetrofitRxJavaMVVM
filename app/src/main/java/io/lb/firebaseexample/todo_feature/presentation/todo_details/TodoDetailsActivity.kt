@@ -156,7 +156,6 @@ class TodoDetailsActivity : AppCompatActivity() {
     private fun setupFinishButton() {
         binding.included.btTodoFinish.setOnClickListener {
             val title = binding.included.tilTodoTitle.editText?.text.toString()
-            val message = binding.included.tilTodoDescription.editText?.text.toString()
             val dateText = binding.included.tilTodoDeadline.editText?.text.toString()
 
             dateText.takeIf {
@@ -166,7 +165,6 @@ class TodoDetailsActivity : AppCompatActivity() {
                 notificationViewModel.onEvent(
                     NotificationEvent.OnScheduleNotification(
                         title,
-                        message,
                         date.get(Calendar.DAY_OF_MONTH),
                         date.get(Calendar.MONTH),
                         date.get(Calendar.YEAR)

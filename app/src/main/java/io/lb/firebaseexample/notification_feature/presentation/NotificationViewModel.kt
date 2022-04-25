@@ -32,7 +32,6 @@ class NotificationViewModel @Inject constructor(
                     useCases.sendScheduledNotificationUseCase(
                         getApplication(),
                         event.title,
-                        event.message,
                         event.day,
                         event.month,
                         event.year,

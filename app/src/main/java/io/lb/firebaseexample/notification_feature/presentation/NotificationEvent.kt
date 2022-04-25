@@ -11,7 +11,6 @@ sealed class NotificationEvent {
     ): NotificationEvent()
     data class OnScheduleNotification(
         val title: String,
-        val message: String,
         val day: Int,
         val month: Int,
         val year: Int,

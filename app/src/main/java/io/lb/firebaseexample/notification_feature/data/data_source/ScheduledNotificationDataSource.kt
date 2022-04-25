@@ -3,9 +3,7 @@ package io.lb.firebaseexample.notification_feature.data.data_source
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
-import android.os.SystemClock
 import androidx.annotation.RequiresApi
 import java.util.*
 
@@ -15,7 +13,6 @@ class ScheduledNotificationDataSource(
     @RequiresApi(Build.VERSION_CODES.S)
     fun scheduleNotification(
         title: String,
-        message: String,
         day: Int,
         month: Int,
         year: Int,
@@ -25,19 +22,19 @@ class ScheduledNotificationDataSource(
         listOf(9, 13, 19).forEach {
             if (calendar.get(Calendar.DAY_OF_MONTH) != day &&
                 calendar.get(Calendar.HOUR_OF_DAY) < it) {
-                setExactTimeNotification(title, message, getTime(day, month, year, it))
+                setExactTimeNotification(title, getTime(day, month, year, it))
             }
         }
     }
 
     private fun setExactTimeNotification(
         title: String,
-        message: String,
         time: Long
     ) {
         val intent = Intent(context, NotificationBroadcast::class.java)
-        intent.putExtra("titleExtra", title)
-        intent.putExtra("messageExtra", message)
+
+        intent.putExtra("titleExtra", "Existe uma tarefa pra hoje")
+        intent.putExtra("messageExtra", title)
         intent.putExtra("notificationId", time)
 
         val pendingIntent = PendingIntent.getBroadcast(

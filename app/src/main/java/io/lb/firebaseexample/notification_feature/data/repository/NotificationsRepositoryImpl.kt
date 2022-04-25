@@ -39,14 +39,13 @@ class NotificationsRepositoryImpl(
     override fun sendScheduledNotification(
         context: Context,
         title: String,
-        message: String,
         day: Int,
         month: Int,
         year: Int
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             scheduledNotificationDataSource.scheduleNotification(
-                title, message, day, month, year
+                title, day, month, year
             )
         }
     }
