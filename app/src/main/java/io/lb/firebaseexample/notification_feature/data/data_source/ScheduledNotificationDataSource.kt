@@ -17,12 +17,13 @@ class ScheduledNotificationDataSource(
         month: Int,
         year: Int,
     ) {
-        val calendar = Calendar.getInstance()
+        val calendar = Calendar.getInstance(Locale.getDefault())
 
         listOf(9, 13, 19).forEach {
-            if (calendar.get(Calendar.DAY_OF_MONTH) != day &&
-                calendar.get(Calendar.HOUR_OF_DAY) < it) {
-                setExactTimeNotification(title, getTime(day, month, year, it))
+            val exactCalendar = getTime(day, month, year, it)
+
+            if (exactCalendar.after(calendar)) {
+                setExactTimeNotification(title, exactCalendar.timeInMillis)
             }
         }
     }
@@ -52,9 +53,9 @@ class ScheduledNotificationDataSource(
         )
     }
 
-    private fun getTime(day: Int, month: Int, year: Int, hoursOfDay: Int): Long {
+    private fun getTime(day: Int, month: Int, year: Int, hoursOfDay: Int): Calendar {
         val calendar = Calendar.getInstance(Locale.getDefault())
         calendar.set(year, month, day, hoursOfDay, 0)
-        return calendar.timeInMillis
+        return calendar
     }
 }
