@@ -4,4 +4,5 @@ data class NotificationUseCases(
     val sendPushNotificationToUseCase: SendPushNotificationToUseCase,
     val initializeFireBaseMessagingUseCase: InitializeFireBaseMessagingUseCase,
     val sendScheduledNotificationUseCase: SendScheduledNotificationUseCase,
+    val deactivateScheduledNotificationUseCase: DeactivateScheduledNotificationUseCase,
 )

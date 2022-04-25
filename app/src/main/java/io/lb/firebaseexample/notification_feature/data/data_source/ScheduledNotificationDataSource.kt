@@ -25,10 +25,19 @@ class ScheduledNotificationDataSource(
         }
     }
 
-    private fun setExactTimeNotification(
-        title: String,
-        time: Long
-    ) {
+    fun deactivateScheduleDNotification(day: Int, month: Int, year: Int) {
+        val calendar = Calendar.getInstance(Locale.getDefault())
+
+        listOf(9, 13, 19).forEach {
+            val exactCalendar = getTime(day, month, year, it)
+
+            if (exactCalendar.after(calendar)) {
+                deactivateExactTimeNotification(exactCalendar.timeInMillis)
+            }
+        }
+    }
+
+    private fun setExactTimeNotification(title: String, time: Long) {
         val intent = Intent(context, NotificationBroadcast::class.java)
 
         intent.putExtra("titleExtra", "Existe uma tarefa pra hoje")
@@ -48,6 +57,18 @@ class ScheduledNotificationDataSource(
             time,
             pendingIntent
         )
+    }
+
+    private fun deactivateExactTimeNotification(time: Long) {
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            time.toInt(),
+            Intent(context, NotificationBroadcast::class.java),
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
     }
 
     private fun getTime(day: Int, month: Int, year: Int, hoursOfDay: Int): Calendar {

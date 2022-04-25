@@ -15,4 +15,9 @@ sealed class NotificationEvent {
         val month: Int,
         val year: Int,
     ): NotificationEvent()
+    data class OnScheduleNotificationDeactivate(
+        val day: Int,
+        val month: Int,
+        val year: Int,
+    ): NotificationEvent()
 }

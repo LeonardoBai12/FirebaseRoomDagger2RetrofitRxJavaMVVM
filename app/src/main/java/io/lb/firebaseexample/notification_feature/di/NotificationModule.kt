@@ -10,10 +10,7 @@ import io.lb.firebaseexample.notification_feature.data.data_source.NotificationS
 import io.lb.firebaseexample.notification_feature.data.data_source.ScheduledNotificationDataSource
 import io.lb.firebaseexample.notification_feature.data.repository.NotificationsRepositoryImpl
 import io.lb.firebaseexample.notification_feature.domain.repository.NotificationsRepository
-import io.lb.firebaseexample.notification_feature.domain.use_case.InitializeFireBaseMessagingUseCase
-import io.lb.firebaseexample.notification_feature.domain.use_case.NotificationUseCases
-import io.lb.firebaseexample.notification_feature.domain.use_case.SendPushNotificationToUseCase
-import io.lb.firebaseexample.notification_feature.domain.use_case.SendScheduledNotificationUseCase
+import io.lb.firebaseexample.notification_feature.domain.use_case.*
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -39,6 +36,7 @@ object NotificationModule {
             sendPushNotificationToUseCase = SendPushNotificationToUseCase(repository),
             initializeFireBaseMessagingUseCase = InitializeFireBaseMessagingUseCase(repository),
             sendScheduledNotificationUseCase = SendScheduledNotificationUseCase(repository),
+            deactivateScheduledNotificationUseCase = DeactivateScheduledNotificationUseCase(repository),
         )
     }
 }

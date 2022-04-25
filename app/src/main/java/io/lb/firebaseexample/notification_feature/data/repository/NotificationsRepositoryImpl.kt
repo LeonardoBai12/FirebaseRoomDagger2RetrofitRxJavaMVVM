@@ -1,6 +1,5 @@
 package io.lb.firebaseexample.notification_feature.data.repository
 
-import android.content.Context
 import android.os.Build
 import com.google.firebase.messaging.FirebaseMessaging
 import io.lb.firebaseexample.notification_feature.data.data_source.NotificationDataSource
@@ -37,7 +36,6 @@ class NotificationsRepositoryImpl(
     }
 
     override fun sendScheduledNotification(
-        context: Context,
         title: String,
         day: Int,
         month: Int,
@@ -46,6 +44,14 @@ class NotificationsRepositoryImpl(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             scheduledNotificationDataSource.scheduleNotification(
                 title, day, month, year
+            )
+        }
+    }
+
+    override fun deactivateScheduledNotification(day: Int, month: Int, year: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            scheduledNotificationDataSource.deactivateScheduleDNotification(
+                day, month, year
             )
         }
     }

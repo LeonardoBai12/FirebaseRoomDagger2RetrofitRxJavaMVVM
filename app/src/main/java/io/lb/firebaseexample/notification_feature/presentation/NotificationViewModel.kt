@@ -30,8 +30,14 @@ class NotificationViewModel @Inject constructor(
                 }
                 is NotificationEvent.OnScheduleNotification -> {
                     useCases.sendScheduledNotificationUseCase(
-                        getApplication(),
                         event.title,
+                        event.day,
+                        event.month,
+                        event.year,
+                    )
+                }
+                is NotificationEvent.OnScheduleNotificationDeactivate -> {
+                    useCases.deactivateScheduledNotificationUseCase(
                         event.day,
                         event.month,
                         event.year,
