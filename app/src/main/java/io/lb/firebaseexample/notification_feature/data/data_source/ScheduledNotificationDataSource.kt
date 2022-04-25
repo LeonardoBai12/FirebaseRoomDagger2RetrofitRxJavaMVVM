@@ -3,14 +3,11 @@ package io.lb.firebaseexample.notification_feature.data.data_source
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import androidx.annotation.RequiresApi
 import java.util.*
 
 class ScheduledNotificationDataSource(
     private val context: Context,
 ) {
-    @RequiresApi(Build.VERSION_CODES.S)
     fun scheduleNotification(
         title: String,
         day: Int,
