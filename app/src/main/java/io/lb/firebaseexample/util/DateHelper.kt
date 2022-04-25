@@ -50,6 +50,14 @@ fun buildDatePickerDialog(
     )
 }
 
+fun dateFromString(dateText: String): Calendar {
+    val form = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+    val date = form.parse(dateText) as Date
+    val calendar = Calendar.getInstance()
+    calendar.time = date
+    return calendar
+}
+
 fun dateToString(
     day: Int,
     month: Int,

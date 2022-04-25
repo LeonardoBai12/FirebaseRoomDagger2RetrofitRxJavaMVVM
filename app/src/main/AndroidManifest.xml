@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="io.lb.firebaseexample">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
         android:name=".core.FirebaseExampleApplication"
@@ -13,7 +17,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FirebaseExample">
+        android:theme="@style/Theme.FirebaseExample"
+        tools:targetApi="n">
+        <service
+            android:name=".notification_feature.data.data_source.NotificationDataSource"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.android.c2dm.intent.receive"/>
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".notification_feature.data.data_source.NotificationBroadcast"
+            android:enabled="true"/>
+
         <activity
             android:name="io.lb.firebaseexample.splash_feature.presentation.SplashActivity"
             android:exported="true"
